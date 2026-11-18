@@ -24,7 +24,7 @@ Before asking anything, read what already exists. What the code and copy say out
   2. `scripts/` next to this SKILL.md: the skill's base directory, or the folder of the path you read it from (this also covers a plugin run from its source folder)
   3. the newest install: `ls -d ~/.claude/plugins/cache/*/art-director/*/skills/art-direction/scripts | sort -V | tail -1`
 
-  Run it in the folder of the app in scope, not at a monorepo root: the header lists the subprojects it found. Paste its tables as they are. Add `--all` when a house rule bans a value (say, text under 11 px): the default shows only the top 5 per kind, and `--all` lists every value and every row.
+  Run it in the folder of the app in scope, not at a monorepo root: the header lists the subprojects it found. Paste its tables as they are. The default already lists every duration over its ceiling, every timer sequence and the lines of unknown kind to confirm (up to 50). Add `--all` when a house rule bans a value (say, text under 11 px): the default shows only the top 5 values per kind, and `--all` lists every value and every row.
 - House rules: the project's own design-system, brand or finish skill (in `.claude/skills/`), a style guide, a DESIGN.md, and product docs that set design or tone rules (a principles or product file, a `docs/` folder). They **rule**. A rule that points to an outside standard ("follow our brand book") without its text in the repo: ask for it, or note it as "referenced, not read". Never fill it in from memory. The school works underneath them, never against them. Note where each one lives and what it fixes (fonts, colors, banned items, a motion ceiling).
 - Main screens: which screen do people open most? That is where the direction has to shine.
 
@@ -108,7 +108,7 @@ If the project already has a DESIGN.md or a house yardstick, **update** it inste
    (name and tighten with no gap to fill: "Accent: none")
    (if there are two routes: safe × bold, and which one I recommend)
 6. Conflicts with the house: school rule × house rule → the house wins → what changes
-7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it; timers and stagger steps come in their own tables: keep the timers that drive motion, and check each stagger's last item) · ceiling · fix
+7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it; timers, timer sequences and stagger steps come in their own tables: keep the timers that drive motion, judge a sequence by its end, check each stagger's last item, and confirm each line of unknown kind) · ceiling · fix
 8. The look in one sentence ("Swiss with Scandinavian warmth: clear information, no chill")
 9. Starting tokens and the 3 rules that change the screen most
 10. Application plan: what changes, in what order, in which files

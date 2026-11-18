@@ -59,6 +59,7 @@ awk '{ print "N\t" $0 }' "$tmp/nested" >> "$tmp/meta"
 
 cat > "$tmp/scan.awk" <<'AWK'
 function add(k, v) {
+  if (k == "font family") sub(/ variable$/, "", v)   # "Inter Variable" = @fontsource-variable/inter
   if (v == "") return
   uses[k]++
   if (!((k SUBSEP v) in cnt)) uniq[k]++
@@ -99,7 +100,7 @@ function ms(v, bare_is_seconds,    x) {
 # Kind from nearby words (the line, its open blocks, the file name). A guess: the agent confirms it.
 function guess(s) {
   # English and Portuguese words
-  if (s ~ /hover|focus|press|whiletap|:active|active:|button|btn|botao|toque|clique/) return "touch"
+  if (s ~ /hover|focus|press|whiletap|:active|active:|button|btn|click|tap|botao|toque|clique/) return "touch"
   if (s ~ /page|route|intro|hero|scene|pagina|cena|abertura/) return "scene"
   if (s ~ /enter|appear|reveal|scroll|keyframes|animation|fade|inview|revela|surge|abre|aparece|desliza|entrada|mostra/) return "reveal"
   return "?"
@@ -107,7 +108,9 @@ function guess(s) {
 function gx(    g) { g = guess(cx); return (g == "?") ? guess(base) : g }
 function keep(v, kind, w,    c, fl) {
   if (kind ~ /^timer/) {
-    if (v > 160) { fl = w; sub(/:[0-9]+$/, "", fl); timers[++ntm] = sprintf("%07d\t%s\t%s\t%d", v, substr(kind, 7), fl, substr(w, length(fl) + 2)) }
+    split(substr(kind, 7), G, "\t")
+    if (v > 160) { fl = w; sub(/:[0-9]+$/, "", fl); timers[++ntm] = sprintf("%07d\t%s\t%s\t%d", v, G[1], fl, substr(w, length(fl) + 2))
+                   gnn[G[2]]++; if (v > gmx[G[2]]) gmx[G[2]] = v }
     return
   }
   c = (kind == "scene") ? 1200 : (kind == "touch") ? 160 : 700
@@ -121,22 +124,32 @@ function dur(f, ln, v, kind) {
   chk(f, ln, v, kind)
 }
 # the ceiling check alone (a delay already counted, added to its duration)
-function chk(f, ln, v, kind) {
-  if (kind == "loop" || v <= 160) return
-  if (kind == "timer") kind = "timer:" gx()
+# fam: "transition" or "animation" (its delays in the same rule add), "d" fam = that delay alone
+function chk(f, ln, v, kind, fam) {
+  if (kind == "loop" || (v <= 160 && fam !~ /^d?[at]/)) return
+  if (kind == "timer") kind = "timer:" gx() "\t" cg
   if (kind == "") kind = gx()
-  if (cd > 0) { ++npend; pv[npend] = v; pk[npend] = kind; pd[npend] = cd; pl[npend] = cl; pw[npend] = f ":" ln; return }
+  if (cd > 0) { ++npend; pv[npend] = v; pk[npend] = kind; pd[npend] = cd; pl[npend] = cl; pw[npend] = f ":" ln; pf[npend] = fam
+                if (fam ~ /^[at]/) bdur[cd, fam] = 1
+                return }
+  if (v <= 160) return
   if (!cl) keep(v, kind, f ":" ln)
 }
 # A block closed: decide its durations. Any loop word in the block makes all of them loops.
-function flush(lvl,    i, n) {
+function flush(lvl,    i, n, v, fm) {
   n = 0
   for (i = 1; i <= npend; i++) {
-    if (pd[i] > lvl) { if (!pl[i] && !bloop[pd[i]]) keep(pv[i], pk[i], pw[i]) }
-    else { ++n; pv[n] = pv[i]; pk[n] = pk[i]; pd[n] = pd[i]; pl[n] = pl[i]; pw[n] = pw[i] }
+    if (pd[i] > lvl) {
+      v = pv[i]; fm = pf[i]
+      if (fm ~ /^d/) { if ((pd[i] SUBSEP substr(fm, 2)) in bdur) continue }
+      else if (fm != "" && ((pd[i] SUBSEP fm) in bdel)) v += bdel[pd[i], fm]
+      if (!pl[i] && !bloop[pd[i]] && v > 160) keep(v, pk[i], pw[i])
+    }
+    else { ++n; pv[n] = pv[i]; pk[n] = pk[i]; pd[n] = pd[i]; pl[n] = pl[i]; pw[n] = pw[i]; pf[n] = pf[i] }
   }
   npend = n
-  for (i = lvl + 1; i <= maxd; i++) { bloop[i] = 0; blk[i] = 0; ctx[i] = "" }
+  for (i = lvl + 1; i <= maxd; i++) { bloop[i] = 0; blk[i] = 0; ctx[i] = ""
+    delete bdel[i, "transition"]; delete bdel[i, "animation"]; delete bdur[i, "transition"]; delete bdur[i, "animation"] }
 }
 # Every match of re whose char before is not in pre and char after is not in post.
 # Fills M (the match), B (the char before) and A (12 chars after). Returns the count.
@@ -165,10 +178,11 @@ function doline(f, ln, line,    l, t, x, o, c, d0, d1, dd, b, i) {
   if (d1 > d0) {
     b = l; sub(/[ \t]*\{[^{]*$/, "", b)
     b = (css || substr(b, length(b), 1) ~ /[=:({,[]/ || (markup && b ~ /^[ \t]*[.#&@:[]/)) ? 1 : 0
-    for (i = d0 + 1; i <= d1; i++) { ctx[i] = l; blk[i] = b; bloop[i] = 0 }
+    for (i = d0 + 1; i <= d1; i++) { ctx[i] = l; blk[i] = b; bloop[i] = 0; cs[i] = ln }
     if (d1 > maxd) maxd = d1
   }
   depth = d1
+  cg = f ":" (d1 > 0 ? cs[d1] : 0)
   dd = (d0 > d1) ? d0 : d1
   cd = blk[dd] ? dd : 0
   cl = (l ~ /infinite|repeat[ \t]*:[ \t]*infinity|animate-(spin|ping|pulse|bounce)/)
@@ -204,15 +218,17 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
 
   n = grab(l, "var\\(--[a-z0-9_-]+", "", "")
   for (i = 1; i <= n; i++) add("css var used", substr(M[i], 5))
-  if (t ~ /^--[a-z0-9_-]+[ \t]*:/) {
-    v = t; sub(/[ \t]*:.*/, "", v); add("css var defined", v)
-    rest = t; sub(/^[^:]*:/, "", rest)
+  # custom-property definitions are tokens: counted as defined, then taken off the line
+  s = ""
+  while (match(l, /(^[ \t]*|[{;][ \t]*)--[a-z0-9_-]+[ \t]*:[^;}]*/)) {
+    v = substr(l, RSTART, RLENGTH); s = s substr(l, 1, RSTART - 1) (v ~ /^[{;]/ ? substr(v, 1, 1) : ""); l = substr(l, RSTART + RLENGTH)
+    sub(/^[{; \t]*/, "", v); rest = v; sub(/[ \t]*:.*/, "", v); sub(/^[^:]*:/, "", rest); add("css var defined", v)
     # a font by name (--font-*) or by value: a stack that ends in a generic family (--display, --corpo)
     if ((v ~ /^--font/ && v !~ /size|weight|feature|variation|style|stretch|optical|kerning|synthesis|smoothing|leading|tracking|line/) \
-        || rest ~ /(^|[ ,])(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-[a-z]+|emoji|math)[ \t]*(!important)?[ \t;}]*$/)
+        || rest ~ /(^|[ ,])(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-[a-z]+|emoji|math)[ \t]*(!important)?[ \t]*$/)
       add("font family", family(rest))
-    return
   }
+  l = s l
 
   # color
   n = grab(l, "#[0-9a-f]+", "[&a-z0-9_]", "[a-z0-9_-]")
@@ -292,6 +308,9 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
     if (v != "none") add("radius", "tw " v)
   }
 
+  n = grab(l, "rounded(-(t|r|b|l|s|e|tl|tr|bl|br|ss|se|es|ee))?-\\[[^]]+\\]", "[a-z0-9_-]", "")
+  for (i = 1; i <= n; i++) { v = M[i]; sub(/^[^[]*\[/, "", v); sub(/\]$/, "", v); if (isnum(v) && !iszero(v)) add("radius", norm(v)) }
+
   # shadow
   n = grab(l, "box-?shadow[ \t]*:[ \t]*[\"'`]?[^;}\"'`]+", "[a-z0-9_]", "")
   for (i = 1; i <= n; i++) {
@@ -307,25 +326,48 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
 
   # duration (loops are counted but never listed as over the ceiling)
   ld = tvars(l)
+  nsl = 0
   while (match(ld, /calc\([ \t]*(var\(--[a-z0-9_-]+\)[ \t]*\*[ \t]*[0-9.]+m?s|[0-9.]+m?s[ \t]*\*[ \t]*var\(--[a-z0-9_-]+\))[ \t]*\)/)) {
     v = substr(ld, RSTART, RLENGTH); ld = substr(ld, 1, RSTART - 1) " " substr(ld, RSTART + RLENGTH)
-    gsub(/var\([^)]*\)/, "", v); match(v, /[0-9.]+m?s/)
-    stag[++nst] = sprintf("%07d\t%s\t%d", ms(substr(v, RSTART, RLENGTH), 0), f, ln)
+    gsub(/var\([^)]*\)/, "", v); match(v, /[0-9.]+m?s/); SL[++nsl] = ms(substr(v, RSTART, RLENGTH), 0)
   }
-  n = grab(ld, "(transition|animation)(-duration|-delay)?[ \t]*:[^;}]+", "[a-z0-9_-]", "")
-  for (i = 1; i <= n; i++) { P[i] = after(M[i]); y = M[i]; sub(/[ \t]*:.*/, "", y); Q[i] = (y !~ /-/) }
-  np = n
+  # CSS, and JS style objects (transitionDuration: "800ms"); a JS string value ends at its quote
+  n = grab(ld, "(transition|animation)(-?duration|-?delay)?[ \t]*:[^;}]+", "[a-z0-9_-]", "")
+  for (i = 1; i <= n; i++) {
+    P[i] = after(M[i]); if (M[i] ~ /:[ \t]*["'`]/) sub(/["'`].*$/, "", P[i])
+    y = M[i]; sub(/[ \t]*:.*/, "", y); Q[i] = (y !~ /duration|delay/); F[i] = (y ~ /^anim/) ? "animation" : "transition"; DL[i] = (y ~ /delay$/)
+  }
+  np = n; nd = 0; split("", LD); lmax = 0
   for (j = 1; j <= np; j++) {
-    # one shorthand item: its first time is the duration, the second its delay
     ni = Q[j] ? split(P[j], I, ",") : split(P[j], I, "\n")
     for (k = 1; k <= ni; k++) {
       # whole tokens, anchored: an unanchored match lost ".08s" in mawk
       nt = split(I[k], T, /[ \t()]+/); n = 0
       for (i = 1; i <= nt; i++) if (T[i] ~ /^[0-9]*[.]?[0-9]+m?s$/) M[++n] = T[i]
-      if (Q[j] && n >= 2) { v = ms(M[1], 0); x = ms(M[2], 0); add("duration", v "ms"); if (x > 0) add("duration", x "ms"); chk(f, ln, v + x, ""); continue }
-      for (i = 1; i <= n; i++) dur(f, ln, ms(M[i], 0), "")
+      # shorthand item: its first time is the duration, the second its delay
+      if (Q[j]) {
+        if (n == 0) continue
+        v = ms(M[1], 0); x = (n >= 2) ? ms(M[2], 0) : 0
+        if (v > 0) add("duration", v "ms"); if (x > 0) add("duration", x "ms")
+        DD[++nd] = v + x; DF[nd] = F[j]; continue
+      }
+      for (i = 1; i <= n; i++) {
+        v = ms(M[i], 0); if (v <= 0) continue
+        add("duration", v "ms")
+        if (DL[j]) { if (v > LD[F[j]]) LD[F[j]] = v } else { DD[++nd] = v; DF[nd] = F[j] }
+      }
     }
   }
+  # a delay adds to the durations of its family: in the open rule (decided when it closes), else on this line
+  if (cd > 0) {
+    for (i = 1; i <= nd; i++) { chk(f, ln, DD[i], "", DF[i]); if (DD[i] > lmax) lmax = DD[i] }
+    for (x in LD) { if (LD[x] > bdel[cd, x]) bdel[cd, x] = LD[x]; chk(f, ln, LD[x], "", "d" x) }
+  } else {
+    split("", HD)
+    for (i = 1; i <= nd; i++) { v = DD[i] + LD[DF[i]]; HD[DF[i]] = 1; chk(f, ln, v, ""); if (v > lmax) lmax = v }
+    for (x in LD) if (!(x in HD)) chk(f, ln, LD[x], "")
+  }
+  for (i = 1; i <= nsl; i++) stag[++nst] = sprintf("%07d\t%d\t%s\t%d", SL[i], lmax, f, ln)
   n = grab(ld, "(duration|delay)[ \t]*:[ \t]*[\"'`]?[0-9]*[.]?[0-9]+(m?s)?", "[a-z0-9_-]", "[0-9a-z]")
   for (i = 1; i <= n; i++) { v = M[i]; sub(/^[^:]*:[ \t]*/, "", v); DV[i] = ms(v, 1); DK[i] = (M[i] ~ /^delay/) }
   pair(f, ln, n)
@@ -385,6 +427,7 @@ BEGIN {
   for (w in ov) printf "O\t%07d\t%s\t%d\t%s\n", ov[w], ok[w], oc[w], w
   for (w in uq) if (!(w in ov)) printf "U\t%07d\t%s\n", uq[w], w
   for (i = 1; i <= nst; i++) printf "G\t%s\n", stag[i]
+  for (g in gnn) if (gnn[g] >= 2) printf "R\t%07d\t%d\t%s\n", gmx[g], gnn[g], g
   for (i = 1; i <= ntm; i++) printf "T\t%s\n", timers[i]
   printf "F\t%d\n", files + 0
 }
@@ -401,7 +444,8 @@ $1 == "S" { u[$2] = $3; q[$2] = $4 }
 $1 == "T" { tr[++nt] = sprintf("| %d | %s | %s:%d |", $2 + 0, ($3 == "?" ? "—" : $3), $4, $5) }
 $1 == "O" { row[++no] = sprintf("| %d | %s | %d | %s |", $2 + 0, $3, $4, $5) }
 $1 == "U" { ur[++nu] = sprintf("| %d | %s |", $2 + 0, $3) }
-$1 == "G" { gr[++ng] = sprintf("| %d | %s:%d |", $2 + 0, $3, $4) }
+$1 == "G" { gr[++ng] = sprintf("| %d | %s | %s:%d |", $2 + 0, ($3 > 0 ? $3 + 0 " + N×" $2 + 0 : "— (in its rule) + N×" $2 + 0), $4, $5) }
+$1 == "R" { rr[++nr2] = sprintf("| %d | %d | %s |", $2 + 0, $3, ($4 ~ /:0$/ ? substr($4, 1, length($4) - 2) " (top level)" : $4)) }
 $1 == "X" { xo = xo (xo == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "P" { sp = sp (sp == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "N" { nr = nr (nr == "" ? "" : ", ") $2 }
@@ -429,16 +473,18 @@ END {
     if (!all && no > 50) printf "\n…and %d more not shown (--all lists them).\n", no - 50
   }
   if (nu > 0) {
-    printf "\nUnknown kind, 161 to 700 ms: %d line%s. Over the ceiling only if it is a touch: %s\n", nu, (nu == 1 ? "" : "s"), all ? "check each." : "run with --all to list them."
-    if (all) { print ""; print "| ms | Where |"; print "|---|---|"; for (i = 1; i <= nu; i++) print ur[i] }
+    printf "\nConfirm the kind: %d line%s of unknown kind at 161 to 700 ms. A touch (hover, press, click) is over its 160 ceiling; a reveal is fine.\n\n", nu, (nu == 1 ? "" : "s")
+    print "| ms | Where |"; print "|---|---|"
+    for (i = 1; i <= nu && (all || i <= 50); i++) print ur[i]
+    if (!all && nu > 50) printf "\n…and %d more not shown (--all lists them).\n", nu - 50
   }
   print ""
   if (ng == 0) print "Stagger steps (calc(var(--i) * step)): none."
   else {
-    print "Stagger steps (calc(var(--i) * step)), left out of the durations. The last item waits step × (items − 1) more: check it against the ceiling."
+    print "Stagger steps (calc(var(--i) * step)), left out of the durations. The last item ends at duration + N×step, N = items − 1: count the items and check it against the ceiling."
     print ""
-    print "| Step ms | Where |"
-    print "|---|---|"
+    print "| Step ms | Last item ends at (ms) | Where |"
+    print "|---|---|---|"
     for (i = 1; i <= ng && (all || i <= 50); i++) print gr[i]
     if (!all && ng > 50) printf "\n…and %d more not shown (--all lists them).\n", ng - 50
   }
@@ -453,6 +499,14 @@ END {
     print "|---|---|---|"
     for (i = 1; i <= nt && (all || i <= 60); i++) print tr[i]
     if (!all && nt > 60) printf "\n…and %d more not shown (--all lists them).\n", nt - 60
+    if (nr2 > 0) {
+      print ""
+      print "Timer sequences (2+ timers in one block): the longest is when the sequence ends. If it drives motion, it is a scene: over 1200 is over the ceiling."
+      print ""
+      print "| Ends at ms | Timers | Block starts at |"
+      print "|---|---|---|"
+      for (i = 1; i <= nr2; i++) print rr[i]
+    }
   }
   print ""
   print "Counted: raw numbers only; var() is a token use. Skipped: test files, comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg)."
@@ -467,7 +521,8 @@ tab=$(printf '\t')
   grep '^O' "$tmp/raw" | sort -t "$tab" -k2,2r -k5,5 || true
   grep '^T' "$tmp/raw" | sort -t "$tab" -k4,4 -k5,5n || true
   grep '^U' "$tmp/raw" | sort -t "$tab" -k2,2r -k3,3 || true
-  grep '^G' "$tmp/raw" | sort -t "$tab" -k3,3 -k4,4n || true
+  grep '^G' "$tmp/raw" | sort -t "$tab" -k4,4 -k5,5n || true
+  grep '^R' "$tmp/raw" | sort -t "$tab" -k2,2r -k4,4 || true
   cat "$tmp/meta"
   grep '^F' "$tmp/raw"
 } | awk -v version="$VERSION" -v all="$all" -f "$tmp/report.awk"

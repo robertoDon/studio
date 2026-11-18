@@ -1,0 +1,7 @@
+:root { --a: #123456; --t: 900ms; }
+:root { --corpo: "Inter Variable", sans-serif; }
+.x { transition: color 180ms; }
+.d { transition-duration: 900ms; transition-delay: 400ms; }
+.e { animation-duration: 600ms;
+  animation-delay: 700ms; }
+.s { transition: opacity 300ms calc(var(--i) * 80ms); }
