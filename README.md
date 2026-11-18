@@ -6,7 +6,7 @@
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-111111?style=flat-square"></a>
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-1a3cff?style=flat-square">
   <img alt="47 skills" src="https://img.shields.io/badge/skills-47-111111?style=flat-square">
-  <img alt="version 1.2.0" src="https://img.shields.io/badge/version-1.2.0-111111?style=flat-square">
+  <img alt="version 1.2.1" src="https://img.shields.io/badge/version-1.2.1-111111?style=flat-square">
 </p>
 
 **Claude writes good code and ships the same screen every time.** Purple gradient, three identical cards, raw Inter, a fade-up on every scroll. art-director gives Claude Code the judgment of a working art director. It reads your product, picks the one design school that fits your audience, and writes the rules into a `DESIGN.md` that every later screen has to follow.

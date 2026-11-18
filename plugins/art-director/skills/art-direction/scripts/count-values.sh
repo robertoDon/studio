@@ -15,7 +15,7 @@
 # Prints a Markdown report on stdout. Needs only bash, git (optional), awk, sort.
 set -eu
 
-VERSION=1.1
+VERSION=1.2
 dir=${1:-.}
 [ -d "$dir" ] || { echo "count-values: not a directory: $dir" >&2; exit 2; }
 cd "$dir"
@@ -41,8 +41,13 @@ fi | { grep -E "$exts" || true; } | { grep -Ev "$skip" || true; } | outside | so
 find . \( -name node_modules -o -name .git \) -prune -o -name package.json -print | sed 's|^\./||' | { grep / || true; } \
   | sed 's|/package\.json$||' | { grep -Ev "$skip" || true; } | outside | sort -u > "$tmp/subs"
 if [ -s "$tmp/subs" ]; then
-  awk 'NR == FNR { d[++n] = $0; next } { for (i = 1; i <= n; i++) if (index($0, d[i] "/") == 1) c[i]++ }
-       END { for (i = 1; i <= n; i++) printf "P\t%s\t%d\n", d[i], c[i] + 0 }' "$tmp/subs" "$tmp/files" > "$tmp/meta"
+  # per subproject: its file count; files outside every subproject go by folder (2 levels)
+  awk 'NR == FNR { d[++n] = $0; next }
+       { for (i = 1; i <= n; i++) if (index($0, d[i] "/") == 1) { c[i]++; next }
+         k = $0; sub(/\/[^\/]*$/, "", k); if (k == $0) k = "(root)"; else if (split(k, a, "/") > 2) k = a[1] "/" a[2]
+         if (!(k in x)) o[++m] = k; x[k]++ }
+       END { for (i = 1; i <= n; i++) printf "P\t%s\t%d\n", d[i], c[i] + 0
+             for (i = 1; i <= m; i++) printf "X\t%s\t%d\n", o[i], x[o[i]] }' "$tmp/subs" "$tmp/files" > "$tmp/meta"
 fi
 awk '{ print "N\t" $0 }' "$tmp/nested" >> "$tmp/meta"
 
@@ -306,7 +311,9 @@ BEGIN {
 }
 $1 == "C" { if (++seen[$2] <= 5) { v = $4; gsub(/\|/, "\\|", v); top[$2] = top[$2] (seen[$2] > 1 ? ", " : "") v " ×" $3 } }
 $1 == "S" { u[$2] = $3; q[$2] = $4 }
-$1 == "O" { if (++no <= 50) row[no] = sprintf("| %d | %s | %d | %s |", $2 + 0, $3, $4, $5) }
+$1 == "O" && $3 == "timer" { tr[++nt] = sprintf("| %d | %s |", $2 + 0, $5); next }
+$1 == "O" { row[++no] = sprintf("| %d | %s | %d | %s |", $2 + 0, $3, $4, $5) }
+$1 == "X" { xo = xo (xo == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "P" { sp = sp (sp == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "N" { nr = nr (nr == "" ? "" : ", ") $2 }
 $1 == "F" { files = $2 }
@@ -314,7 +321,9 @@ END {
   print "# Value count"
   print ""
   printf "art-director count-values %s · %d files scanned\n\n", version, files
-  if (sp != "") printf "Subprojects (own package.json): %s. Monorepo: run once per app, in the app folder.\n\n", sp
+  if (sp != "") printf "Subprojects (own package.json): %s. Monorepo: run once per app, in the app folder.\n", sp
+  if (sp != "" && xo != "") printf "Outside them: %s.\n", xo
+  if (sp != "") print ""
   if (nr != "") printf "Left out, nested repos (own .git): %s.\n\n", nr
   print "| Kind | Uses | Unique | Top 5 (value ×uses) |"
   print "|---|---|---|---|"
@@ -322,13 +331,23 @@ END {
   print ""
   if (no == 0) print "Durations over the ceiling: none (loops left out)."
   else {
-    print "Durations over the ceiling (loops left out; delays and timers included). Ceiling by kind: touch 160, reveal 700, scene 1200; timer and ? use 160."
-    print "The kind is a guess from nearby words: confirm it, and drop timers that are not motion (a debounce, a toast that closes)."
+    print "Durations over the ceiling (loops left out; delays included). Ceiling by kind: touch 160, reveal 700, scene 1200; ? uses 160."
+    print "The kind is a guess from nearby words: confirm it."
     print ""
     print "| ms | Kind (guess) | Ceiling | Where |"
     print "|---|---|---|---|"
     for (i = 1; i <= no && i <= 50; i++) print row[i]
     if (no > 50) printf "\n…and %d more not shown.\n", no - 50
+  }
+  print ""
+  if (nt == 0) print "Timers over 160 ms (setTimeout): none."
+  else {
+    print "Timers over 160 ms (setTimeout). Motion only when one starts or ends an animation (a typing cursor, a staged intro); a toast or a debounce is not."
+    print ""
+    print "| ms | Where |"
+    print "|---|---|"
+    for (i = 1; i <= nt && i <= 20; i++) print tr[i]
+    if (nt > 20) printf "\n…and %d more not shown.\n", nt - 20
   }
   print ""
   print "Counted: raw numbers only; var() is a token use. Skipped: comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg)."

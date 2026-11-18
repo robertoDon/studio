@@ -108,7 +108,7 @@ If the project already has a DESIGN.md or a house yardstick, **update** it inste
    (name and tighten with no gap to fill: "Accent: none")
    (if there are two routes: safe × bold, and which one I recommend)
 6. Conflicts with the house: school rule × house rule → the house wins → what changes
-7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it) · ceiling · fix
+7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it; timers come in their own table, keep the ones that drive motion) · ceiling · fix
 8. The look in one sentence ("Swiss with Scandinavian warmth: clear information, no chill")
 9. Starting tokens and the 3 rules that change the screen most
 10. Application plan: what changes, in what order, in which files
