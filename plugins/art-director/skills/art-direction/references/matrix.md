@@ -84,6 +84,8 @@ Legend: **M** = good as main · *a* = good as accent.
 
 ## 5. Worked examples
 
+These are full-choice cases: a new look, so the accent is part of the formula. When the product already has an identity (name and tighten), an accent shown here counts only if it fills a gap the house and the named school leave open.
+
 - **Running training app for 25–40, wants "energetic + modern", mobile:** Sport **M** + Dark Tech *a*. Condensed italic numbers, dark background during the live workout, light in the history.
 - **Family recipe app, "welcoming + handcrafted", mobile + website:** Handcrafted **M** + Scandinavian *a*. A serif with personality in titles, real food photos, cream paper, rounded buttons.
 - **CRM for small businesses, "cool + affordable-premium", web + mobile:** Refined Minimalism **M** + Dark Tech *a* on the landing page. The house's own finish rules, if it has any, on top.

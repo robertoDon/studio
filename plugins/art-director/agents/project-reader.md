@@ -18,7 +18,7 @@ You read projects and return an objective X-ray. You change no files. Reply in t
    - Distinct text, background and border colors; which text grays exist and their approximate contrast against the background (WCAG formula).
    - Transition/animation durations.
    Run the counting script, never your own grep (`count-values.sh`; where to find it: `art-direction`, "The counting script"). Same project, same numbers. In a monorepo, run it in the app folder in scope. Paste its tables as they are. Grays and contrast you still work out by hand.
-5. **House rules:** CLAUDE.md, DESIGN.md, style guides, `design/` folders and skills in `.claude/skills/` (look for design-system, brand, style, UI or finish skills). Summarize the recorded decisions, with dates when available, and what they fix: fonts, colors, banned items, a motion ceiling.
+5. **House rules:** CLAUDE.md, DESIGN.md, style guides, `design/` folders, product docs with design or tone rules (a principles or product file, `docs/`) and skills in `.claude/skills/` (look for design-system, brand, style, UI or finish skills). A rule that names an outside standard whose text is not in the repo: write "referenced, not read" and add it to the questions. Summarize the recorded decisions, with dates when available, and what they fix: fonts, colors, banned items, a motion ceiling.
 6. **Main screens:** the 3–5 most important screen files and what each one does.
 7. **Generic signs:** patterns from the `anti-generic` skill that show up (e.g. the kit's default accent color, default Inter, identical cards, fade-up on everything).
 
@@ -30,7 +30,7 @@ Likely audience: ... (read | inferred)
 Surfaces: ...
 Stack: ...
 Tokens: the script's table, pasted as is; failing grays: ...
-Motion: the script's table of durations over their ceiling (file:line, guessed kind); confirm each kind; from its timer table keep only timers that drive motion
+Motion: the script's table of durations over their ceiling (file:line, guessed kind); confirm each kind; from its timer table keep only timers that drive motion; for each stagger step, the last item's total wait
 House rules: where each lives and what it fixes, motion ceiling included; or "none found"
 Main screens: ...
 Generic signs: ...

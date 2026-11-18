@@ -24,8 +24,8 @@ Before asking anything, read what already exists. What the code and copy say out
   2. `scripts/` next to this SKILL.md: the skill's base directory, or the folder of the path you read it from (this also covers a plugin run from its source folder)
   3. the newest install: `ls -d ~/.claude/plugins/cache/*/art-director/*/skills/art-direction/scripts | sort -V | tail -1`
 
-  Run it in the folder of the app in scope, not at a monorepo root: the header lists the subprojects it found. Paste its tables as they are.
-- House rules: the project's own design-system, brand or finish skill (in `.claude/skills/`), a style guide, a DESIGN.md. They **rule**. The school works underneath them, never against them. Note where each one lives and what it fixes (fonts, colors, banned items, a motion ceiling).
+  Run it in the folder of the app in scope, not at a monorepo root: the header lists the subprojects it found. Paste its tables as they are. Add `--all` when a house rule bans a value (say, text under 11 px): the default shows only the top 5 per kind, and `--all` lists every value and every row.
+- House rules: the project's own design-system, brand or finish skill (in `.claude/skills/`), a style guide, a DESIGN.md, and product docs that set design or tone rules (a principles or product file, a `docs/` folder). They **rule**. A rule that points to an outside standard ("follow our brand book") without its text in the repo: ask for it, or note it as "referenced, not read". Never fill it in from memory. The school works underneath them, never against them. Note where each one lives and what it fixes (fonts, colors, banned items, a motion ceiling).
 - Main screens: which screen do people open most? That is where the direction has to shine.
 
 On a large project, use the `project-reader` agent for this.
@@ -53,7 +53,7 @@ First, the starting point:
 1. **Name it.** Which school is the current look closest to? Measure it with that school's checklist. Say which parts match and which don't.
 2. **Keep the identity.** Logo, brand color, type and every recorded decision stay. That is what people recognize.
 3. **Tighten.** Collapse stray values into tokens (from the count), fix accessibility, bring motion under the ceiling, remove the `anti-generic` patterns the house did not choose.
-4. **Fill gaps only.** Where the house has no rule (empty states, charts, motion), borrow that part from the named school. An accent is **optional** here: add one only for a gap the named school doesn't cover, and only from its "pairs with" list. No gap, no accent.
+4. **Fill gaps only.** Where the house has no rule (empty states, charts, motion), borrow that part from the named school. An accent is **optional** here: add one only for a gap the named school doesn't cover, and only from its "pairs with" list. No gap, no accent. An accent in the matrix's worked examples is a full-choice answer: here it counts only if it fills such a gap.
 5. **No safe × bold routes.** If the X-ray shows the identity fails the audience, record a redesign as an open decision for the owner. Don't start it.
 
 **Full choice.** Use [references/matrix.md](references/matrix.md):
@@ -108,7 +108,7 @@ If the project already has a DESIGN.md or a house yardstick, **update** it inste
    (name and tighten with no gap to fill: "Accent: none")
    (if there are two routes: safe × bold, and which one I recommend)
 6. Conflicts with the house: school rule × house rule → the house wins → what changes
-7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it; timers come in their own table, keep the ones that drive motion) · ceiling · fix
+7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it; timers and stagger steps come in their own tables: keep the timers that drive motion, and check each stagger's last item) · ceiling · fix
 8. The look in one sentence ("Swiss with Scandinavian warmth: clear information, no chill")
 9. Starting tokens and the 3 rules that change the screen most
 10. Application plan: what changes, in what order, in which files

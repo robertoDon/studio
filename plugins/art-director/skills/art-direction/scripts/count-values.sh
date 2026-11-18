@@ -2,7 +2,8 @@
 # count-values.sh: counts the design values a project really uses.
 # Same project, same numbers: a fixed file list, fixed patterns and a fixed sort.
 #
-#   bash count-values.sh [project-dir]        (default: the current directory)
+#   bash count-values.sh [--all] [project-dir]   (default: the current directory)
+#   --all: every value per kind (not just the top 5) and every row of every table
 #
 # Files: git ls-files (tracked + untracked, not ignored) when inside a git repo,
 # else find. Both are filtered by the same extension and folder rules below.
@@ -20,7 +21,8 @@ set -eu
 # the plugin's own version, so the report always names the release that made it
 VERSION=$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$(dirname "$0")/../../../.claude-plugin/plugin.json" 2>/dev/null || true)
 VERSION=${VERSION:-dev}
-dir=${1:-.}
+all=0; dir=.
+for a in "$@"; do case $a in --all) all=1 ;; *) dir=$a ;; esac; done
 [ -d "$dir" ] || { echo "count-values: not a directory: $dir" >&2; exit 2; }
 cd "$dir"
 export LC_ALL=C
@@ -102,13 +104,15 @@ function guess(s) {
   if (s ~ /enter|appear|reveal|scroll|keyframes|animation|fade|inview|revela|surge|abre|aparece|desliza|entrada|mostra/) return "reveal"
   return "?"
 }
+function gx(    g) { g = guess(cx); return (g == "?") ? guess(base) : g }
 function keep(v, kind, w,    c, fl) {
   if (kind ~ /^timer/) {
     if (v > 160) { fl = w; sub(/:[0-9]+$/, "", fl); timers[++ntm] = sprintf("%07d\t%s\t%s\t%d", v, substr(kind, 7), fl, substr(w, length(fl) + 2)) }
     return
   }
-  c = (kind == "reveal") ? 700 : (kind == "scene") ? 1200 : 160
-  if (v > c) over[++nover] = sprintf("%07d\t%s\t%d\t%s", v, kind, c, w)
+  c = (kind == "scene") ? 1200 : (kind == "touch") ? 160 : 700
+  if (v > c) { if (!(w in ov) || v > ov[w]) { ov[w] = v; ok[w] = kind; oc[w] = c } }
+  else if (kind == "?" && !(w in ov) && (!(w in uq) || v > uq[w])) uq[w] = v
 }
 # kind: "" = guess it, "timer", or "loop" (counted, never listed)
 function dur(f, ln, v, kind) {
@@ -119,8 +123,8 @@ function dur(f, ln, v, kind) {
 # the ceiling check alone (a delay already counted, added to its duration)
 function chk(f, ln, v, kind) {
   if (kind == "loop" || v <= 160) return
-  if (kind == "timer") kind = "timer:" guess(cx)
-  if (kind == "") kind = guess(cx)
+  if (kind == "timer") kind = "timer:" gx()
+  if (kind == "") kind = gx()
   if (cd > 0) { ++npend; pv[npend] = v; pk[npend] = kind; pd[npend] = cd; pl[npend] = cl; pw[npend] = f ":" ln; return }
   if (!cl) keep(v, kind, f ":" ln)
 }
@@ -169,7 +173,7 @@ function doline(f, ln, line,    l, t, x, o, c, d0, d1, dd, b, i) {
   cd = blk[dd] ? dd : 0
   cl = (l ~ /infinite|repeat[ \t]*:[ \t]*infinity|animate-(spin|ping|pulse|bounce)/)
   if (cl && cd) bloop[cd] = 1
-  cx = base " " l; for (i = 1; i <= dd; i++) cx = cx " " ctx[i]
+  cx = l; for (i = 1; i <= dd; i++) if (blk[i]) cx = cx " " ctx[i]
   scan(f, ln, line, l, t)
   if (d1 < d0) flush(d1)
 }
@@ -271,7 +275,7 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
   for (i = 1; i <= n; i++) addnums("spacing", after(M[i]))
   n = grab(l, "((row|column)-?)?gap[ \t]*:[ \t]*[\"'`]?[^;}\"'`,]+", "[a-z0-9_]", "")
   for (i = 1; i <= n; i++) addnums("spacing", after(M[i]))
-  n = grab(l, "(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|ms|me|gap|gap-x|gap-y|space-x|space-y)-([0-9]+(\\.5)?|px)", "[a-z0-9_]", "[a-z0-9_.]")
+  n = grab(l, "(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|ms|me|gap|gap-x|gap-y|space-x|space-y)-([0-9]+([.]5)?|px)", "[a-z0-9_]", "[a-z0-9_.]")
   for (i = 1; i <= n; i++) { v = M[i]; sub(/^.*-/, "", v); if (v != "0") add("spacing", "tw " v) }
   n = grab(l, "(p|px|py|pt|pr|pb|pl|ps|pe|m|mx|my|mt|mr|mb|ml|ms|me|gap|gap-x|gap-y|space-x|space-y)-\\[[^]]+\\]", "[a-z0-9_]", ":")
   for (i = 1; i <= n; i++) { v = M[i]; sub(/^[^[]*\[/, "", v); sub(/\]$/, "", v); if (isnum(v) && !iszero(v)) add("spacing", norm(v)) }
@@ -303,6 +307,11 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
 
   # duration (loops are counted but never listed as over the ceiling)
   ld = tvars(l)
+  while (match(ld, /calc\([ \t]*(var\(--[a-z0-9_-]+\)[ \t]*\*[ \t]*[0-9.]+m?s|[0-9.]+m?s[ \t]*\*[ \t]*var\(--[a-z0-9_-]+\))[ \t]*\)/)) {
+    v = substr(ld, RSTART, RLENGTH); ld = substr(ld, 1, RSTART - 1) " " substr(ld, RSTART + RLENGTH)
+    gsub(/var\([^)]*\)/, "", v); match(v, /[0-9.]+m?s/)
+    stag[++nst] = sprintf("%07d\t%s\t%d", ms(substr(v, RSTART, RLENGTH), 0), f, ln)
+  }
   n = grab(ld, "(transition|animation)(-duration|-delay)?[ \t]*:[^;}]+", "[a-z0-9_-]", "")
   for (i = 1; i <= n; i++) { P[i] = after(M[i]); y = M[i]; sub(/[ \t]*:.*/, "", y); Q[i] = (y !~ /-/) }
   np = n
@@ -310,12 +319,14 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
     # one shorthand item: its first time is the duration, the second its delay
     ni = Q[j] ? split(P[j], I, ",") : split(P[j], I, "\n")
     for (k = 1; k <= ni; k++) {
-      n = grab(I[k], "[0-9]*\\.?[0-9]+m?s", "[a-z0-9_.]", "[a-z0-9_]")
+      # whole tokens, anchored: an unanchored match lost ".08s" in mawk
+      nt = split(I[k], T, /[ \t()]+/); n = 0
+      for (i = 1; i <= nt; i++) if (T[i] ~ /^[0-9]*[.]?[0-9]+m?s$/) M[++n] = T[i]
       if (Q[j] && n >= 2) { v = ms(M[1], 0); x = ms(M[2], 0); add("duration", v "ms"); if (x > 0) add("duration", x "ms"); chk(f, ln, v + x, ""); continue }
       for (i = 1; i <= n; i++) dur(f, ln, ms(M[i], 0), "")
     }
   }
-  n = grab(ld, "(duration|delay)[ \t]*:[ \t]*[\"'`]?[0-9]*\\.?[0-9]+(m?s)?", "[a-z0-9_-]", "[0-9a-z]")
+  n = grab(ld, "(duration|delay)[ \t]*:[ \t]*[\"'`]?[0-9]*[.]?[0-9]+(m?s)?", "[a-z0-9_-]", "[0-9a-z]")
   for (i = 1; i <= n; i++) { v = M[i]; sub(/^[^:]*:[ \t]*/, "", v); DV[i] = ms(v, 1); DK[i] = (M[i] ~ /^delay/) }
   pair(f, ln, n)
   n = grab(l, "(duration|delay)-[0-9]+", "[a-z0-9_-]", "[a-z0-9_-]")
@@ -350,7 +361,7 @@ BEGIN {
   while ((getline f < list) > 0) {
     while ((getline line < f) > 0) {
       line = tolower(line)
-      while (match(line, /--[a-z0-9_-]+[ \t]*:[ \t]*[0-9]*\.?[0-9]+m?s([ \t;}]|$)/)) {
+      while (match(line, /--[a-z0-9_-]+[ \t]*:[ \t]*[0-9]*[.]?[0-9]+m?s([ \t;}]|$)/)) {
         v = substr(line, RSTART, RLENGTH); line = substr(line, RSTART + RLENGTH)
         k = v; sub(/[ \t]*:.*/, "", k); sub(/^[^:]*:[ \t]*/, "", v); sub(/[ \t;}]*$/, "", v); tvar[k] = v
       }
@@ -371,7 +382,9 @@ BEGIN {
   }
   for (key in cnt) { split(key, kv, SUBSEP); printf "C\t%s\t%d\t%s\n", kv[1], cnt[key], kv[2] }
   for (k in uses) printf "S\t%s\t%d\t%d\n", k, uses[k], uniq[k]
-  for (i = 1; i <= nover; i++) printf "O\t%s\n", over[i]
+  for (w in ov) printf "O\t%07d\t%s\t%d\t%s\n", ov[w], ok[w], oc[w], w
+  for (w in uq) if (!(w in ov)) printf "U\t%07d\t%s\n", uq[w], w
+  for (i = 1; i <= nst; i++) printf "G\t%s\n", stag[i]
   for (i = 1; i <= ntm; i++) printf "T\t%s\n", timers[i]
   printf "F\t%d\n", files + 0
 }
@@ -383,10 +396,12 @@ BEGIN {
   nk = split("font size|font family|spacing|radius|color|shadow|duration|z-index|arbitrary|css var defined|css var used", K, "|")
   split("Text size|Font family|Spacing|Radius|Color|Shadow|Duration|z-index|Tailwind arbitrary value|CSS variable defined|CSS variable used", L, "|")
 }
-$1 == "C" { if (++seen[$2] <= 5) { v = $4; gsub(/\|/, "\\|", v); top[$2] = top[$2] (seen[$2] > 1 ? ", " : "") v " ×" $3 } }
+$1 == "C" { if (all || ++seen[$2] <= 5) { seen[$2] += all; v = $4; gsub(/\|/, "\\|", v); top[$2] = top[$2] (seen[$2] > 1 ? ", " : "") v " ×" $3 } }
 $1 == "S" { u[$2] = $3; q[$2] = $4 }
 $1 == "T" { tr[++nt] = sprintf("| %d | %s | %s:%d |", $2 + 0, ($3 == "?" ? "—" : $3), $4, $5) }
 $1 == "O" { row[++no] = sprintf("| %d | %s | %d | %s |", $2 + 0, $3, $4, $5) }
+$1 == "U" { ur[++nu] = sprintf("| %d | %s |", $2 + 0, $3) }
+$1 == "G" { gr[++ng] = sprintf("| %d | %s:%d |", $2 + 0, $3, $4) }
 $1 == "X" { xo = xo (xo == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "P" { sp = sp (sp == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "N" { nr = nr (nr == "" ? "" : ", ") $2 }
@@ -399,19 +414,33 @@ END {
   if (sp != "" && xo != "") printf "Outside them: %s.\n", xo
   if (sp != "") print ""
   if (nr != "") printf "Left out, nested repos (own .git): %s.\n\n", nr
-  print "| Kind | Uses | Unique | Top 5 (value ×uses) |"
+  printf "| Kind | Uses | Unique | %s (value ×uses) |\n", all ? "All values" : "Top 5"
   print "|---|---|---|---|"
   for (i = 1; i <= nk; i++) printf "| %s | %d | %d | %s |\n", L[i], u[K[i]], q[K[i]], (K[i] in top) ? top[K[i]] : "—"
   print ""
   if (no == 0) print "Durations over the ceiling: none (loops left out)."
   else {
-    print "Durations over the ceiling (loops left out; delays added, var() read from its definition). Ceiling by kind: touch 160, reveal 700, scene 1200; ? uses 160."
-    print "The kind is a guess from nearby words: confirm it."
+    print "Durations over the ceiling (loops left out; delays added, var() read from its definition). Ceiling by kind: touch 160, reveal 700, scene 1200; ? uses 700."
+    print "One row per line (its longest). The kind is a guess from nearby words: confirm it."
     print ""
     print "| ms | Kind (guess) | Ceiling | Where |"
     print "|---|---|---|---|"
-    for (i = 1; i <= no && i <= 50; i++) print row[i]
-    if (no > 50) printf "\n…and %d more not shown.\n", no - 50
+    for (i = 1; i <= no && (all || i <= 50); i++) print row[i]
+    if (!all && no > 50) printf "\n…and %d more not shown (--all lists them).\n", no - 50
+  }
+  if (nu > 0) {
+    printf "\nUnknown kind, 161 to 700 ms: %d line%s. Over the ceiling only if it is a touch: %s\n", nu, (nu == 1 ? "" : "s"), all ? "check each." : "run with --all to list them."
+    if (all) { print ""; print "| ms | Where |"; print "|---|---|"; for (i = 1; i <= nu; i++) print ur[i] }
+  }
+  print ""
+  if (ng == 0) print "Stagger steps (calc(var(--i) * step)): none."
+  else {
+    print "Stagger steps (calc(var(--i) * step)), left out of the durations. The last item waits step × (items − 1) more: check it against the ceiling."
+    print ""
+    print "| Step ms | Where |"
+    print "|---|---|"
+    for (i = 1; i <= ng && (all || i <= 50); i++) print gr[i]
+    if (!all && ng > 50) printf "\n…and %d more not shown (--all lists them).\n", ng - 50
   }
   print ""
   if (nt == 0) print "Timers over 160 ms (setTimeout): none."
@@ -422,8 +451,8 @@ END {
     print ""
     print "| ms | Nearby words | Where |"
     print "|---|---|---|"
-    for (i = 1; i <= nt && i <= 60; i++) print tr[i]
-    if (nt > 60) printf "\n…and %d more not shown.\n", nt - 60
+    for (i = 1; i <= nt && (all || i <= 60); i++) print tr[i]
+    if (!all && nt > 60) printf "\n…and %d more not shown (--all lists them).\n", nt - 60
   }
   print ""
   print "Counted: raw numbers only; var() is a token use. Skipped: test files, comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg)."
@@ -437,6 +466,8 @@ tab=$(printf '\t')
   grep '^S' "$tmp/raw" || true
   grep '^O' "$tmp/raw" | sort -t "$tab" -k2,2r -k5,5 || true
   grep '^T' "$tmp/raw" | sort -t "$tab" -k4,4 -k5,5n || true
+  grep '^U' "$tmp/raw" | sort -t "$tab" -k2,2r -k3,3 || true
+  grep '^G' "$tmp/raw" | sort -t "$tab" -k3,3 -k4,4n || true
   cat "$tmp/meta"
   grep '^F' "$tmp/raw"
-} | awk -v version="$VERSION" -f "$tmp/report.awk"
+} | awk -v version="$VERSION" -v all="$all" -f "$tmp/report.awk"

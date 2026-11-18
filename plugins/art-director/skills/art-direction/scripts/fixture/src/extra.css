@@ -2,3 +2,7 @@
 .revela { transition: opacity var(--rapido) ease; }
 .titulo { font: 600 15px/1.4 "Inter Tight", sans-serif; }
 .cartao { transition: transform 500ms ease 300ms; }
+.abre-produto { transition: opacity .7s .08s; }
+.item { transition-delay: calc(var(--i) * 80ms); }
+.cta:hover { transition: color 200ms ease; }
+.cta:hover { transition: color 200ms, background 250ms; }
