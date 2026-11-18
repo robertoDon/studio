@@ -26,4 +26,8 @@ want "JSX style transition"           "| 900 | ? | 700 | src/cases/Steps.tsx:8 |
 want "JSX transitionDuration"         "| 800 | ? | 700 | src/cases/Steps.tsx:9 |"
 want "rounded-[13px] is a radius"     "13px ×1"
 want "stagger shows its total"        "| 80 | 300 + N×80 | src/cases/rules.css:7 |"
+want "each raw value shows its places" "| Color | #333333 | 2 | src/styles.css:13, src/styles.css:21 |"
+want "arbitrary radius has its place"   "| Radius | 13px | 1 | src/cases/Steps.tsx:9 |"
+want "places cut at 3 by default"       "| Color | #abcdef | 4 | src/cases/places.css:1, src/cases/places.css:2, src/cases/places.css:3 +1 more |"
+nope "Tailwind steps are not raw"       "| Radius | tw "
 echo "ok: bug cases"

@@ -1,9 +1,9 @@
 # Value count
 
-art-director count-values X · 9 files scanned
+art-director count-values X · 10 files scanned
 
 Subprojects (own package.json): apps/web (1 file). Monorepo: run once per app, in the app folder.
-Outside them: notes (1 file), src (4 files), src/cases (3 files).
+Outside them: notes (1 file), src (4 files), src/cases (4 files).
 
 Left out, nested repos (own .git): other.
 
@@ -13,7 +13,7 @@ Left out, nested repos (own .git): other.
 | Font family | 7 | 5 | inter ×3, fraunces ×1, georgia ×1, inter tight ×1, ui-monospace ×1 |
 | Spacing | 7 | 5 | 16px ×2, tw 4 ×2, 13px ×1, 24px ×1, 8px ×1 |
 | Radius | 4 | 4 | 12px ×1, 13px ×1, tw default ×1, tw lg ×1 |
-| Color | 5 | 4 | #333333 ×2, #ff0000 ×1, rgba(0,0,0,.06) ×1, rgba(0,0,0,0.5) ×1 |
+| Color | 9 | 5 | #abcdef ×4, #333333 ×2, #ff0000 ×1, rgba(0,0,0,.06) ×1, rgba(0,0,0,0.5) ×1 |
 | Shadow | 2 | 2 | 0 1px 2px rgba(0, 0, 0, .06) ×1, tw md ×1 |
 | Duration | 36 | 15 | 300ms ×6, 900ms ×5, 400ms ×4, 1850ms ×3, 200ms ×3 |
 | z-index | 2 | 2 | 10 ×1, tw 50 ×1 |
@@ -76,5 +76,35 @@ Timer sequences (2+ timers in one block): the longest is when the sequence ends.
 |---|---|---|
 | 1850 | 2 | src/Card.tsx:17 |
 | 1850 | 3 | src/cases/Steps.tsx:2 |
+
+Where each raw value is (Tailwind steps and var() left out; durations are above). Fewest uses first: a value used once or twice is the likeliest stray.
+
+| Kind | Value | Uses | Where |
+|---|---|---|---|
+| Text size | 1.5rem | 1 | src/styles.css:21 |
+| Text size | 20px | 1 | notes/ref.css:1 |
+| Text size | 32px | 1 | apps/web/app.css:1 |
+| Text size | 14px | 2 | src/Card.tsx:4, src/styles.css:8 |
+| Text size | 15px | 2 | src/Card.tsx:3, src/extra.css:3 |
+| Font family | fraunces | 1 | src/styles.css:23 |
+| Font family | georgia | 1 | src/styles.css:18 |
+| Font family | inter tight | 1 | src/extra.css:3 |
+| Font family | ui-monospace | 1 | src/styles.css:24 |
+| Font family | inter | 3 | src/cases/fonts.ts:1, src/cases/rules.css:2, src/styles.css:2 |
+| Spacing | 13px | 1 | src/Card.tsx:3 |
+| Spacing | 24px | 1 | src/styles.css:9 |
+| Spacing | 8px | 1 | src/styles.css:11 |
+| Spacing | 16px | 2 | src/Card.tsx:4, src/styles.css:9 |
+| Radius | 12px | 1 | src/styles.css:12 |
+| Radius | 13px | 1 | src/cases/Steps.tsx:9 |
+| Color | #ff0000 | 1 | src/Card.tsx:5 |
+| Color | rgba(0,0,0,.06) | 1 | src/styles.css:15 |
+| Color | rgba(0,0,0,0.5) | 1 | src/styles.css:14 |
+| Color | #333333 | 2 | src/styles.css:13, src/styles.css:21 |
+| Color | #abcdef | 4 | src/cases/places.css:1, src/cases/places.css:2, src/cases/places.css:3 +1 more |
+| Shadow | 0 1px 2px rgba(0, 0, 0, .06) | 1 | src/styles.css:15 |
+| z-index | 10 | 1 | src/styles.css:17 |
+
+Up to 3 places per value; --all lists every place.
 
 Counted: raw numbers only; var() is a token use. Skipped: test files, comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg).

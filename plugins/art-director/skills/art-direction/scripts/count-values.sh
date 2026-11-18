@@ -58,12 +58,18 @@ fi
 awk '{ print "N\t" $0 }' "$tmp/nested" >> "$tmp/meta"
 
 cat > "$tmp/scan.awk" <<'AWK'
-function add(k, v) {
+function add(k, v,    kq, w) {
   if (k == "font family") sub(/ variable$/, "", v)   # "Inter Variable" = @fontsource-variable/inter
   if (v == "") return
   uses[k]++
-  if (!((k SUBSEP v) in cnt)) uniq[k]++
-  cnt[k SUBSEP v]++
+  kq = k SUBSEP v
+  if (!(kq in cnt)) uniq[k]++
+  cnt[kq]++
+  # where each raw value is (f and ln are the scan loop's globals); Tailwind steps are tokens
+  if (k ~ /^(font size|font family|spacing|radius|color|shadow|z-index)$/ && v !~ /^tw /) {
+    w = f ":" ln
+    if (!((kq SUBSEP w) in seenat)) { seenat[kq SUBSEP w] = 1; at[kq] = at[kq] (kq in nat ? ", " : "") w; nat[kq]++ }
+  }
 }
 function dbl(c) { return c c }
 function isnum(v) { return v ~ /^-?[0-9]*\.?[0-9]+[a-z%]*$/ }
@@ -424,6 +430,7 @@ BEGIN {
   }
   for (key in cnt) { split(key, kv, SUBSEP); printf "C\t%s\t%d\t%s\n", kv[1], cnt[key], kv[2] }
   for (k in uses) printf "S\t%s\t%d\t%d\n", k, uses[k], uniq[k]
+  for (kq in at) { split(kq, kw, SUBSEP); printf "W\t%s\t%d\t%s\t%d\t%s\n", kw[1], cnt[kq], kw[2], nat[kq], at[kq] }
   for (w in ov) printf "O\t%07d\t%s\t%d\t%s\n", ov[w], ok[w], oc[w], w
   for (w in uq) if (!(w in ov)) printf "U\t%07d\t%s\n", uq[w], w
   for (i = 1; i <= nst; i++) printf "G\t%s\n", stag[i]
@@ -441,6 +448,14 @@ BEGIN {
 }
 $1 == "C" { if (all || ++seen[$2] <= 5) { seen[$2] += all; v = $4; gsub(/\|/, "\\|", v); top[$2] = top[$2] (seen[$2] > 1 ? ", " : "") v " ×" $3 } }
 $1 == "S" { u[$2] = $3; q[$2] = $4 }
+$1 == "W" {
+  n = ++wn[$2]
+  if (all || n <= 30) {
+    locs = $6
+    if (!all && $5 > 3) { split(locs, A, ", "); locs = A[1] ", " A[2] ", " A[3] " +" ($5 - 3) " more" }
+    v = $4; gsub(/\|/, "\\|", v); wr[$2, n] = sprintf("%s | %d | %s |", v, $3, locs)
+  }
+}
 $1 == "T" { tr[++nt] = sprintf("| %d | %s | %s:%d |", $2 + 0, ($3 == "?" ? "—" : $3), $4, $5) }
 $1 == "O" { row[++no] = sprintf("| %d | %s | %d | %s |", $2 + 0, $3, $4, $5) }
 $1 == "U" { ur[++nu] = sprintf("| %d | %s |", $2 + 0, $3) }
@@ -509,6 +524,17 @@ END {
     }
   }
   print ""
+  print "Where each raw value is (Tailwind steps and var() left out; durations are above). Fewest uses first: a value used once or twice is the likeliest stray."
+  print ""
+  print "| Kind | Value | Uses | Where |"
+  print "|---|---|---|---|"
+  for (i = 1; i <= nk; i++) {
+    k = K[i]
+    for (j = 1; j <= wn[k] && (all || j <= 30); j++) printf "| %s | %s\n", L[i], wr[k, j]
+    if (!all && wn[k] > 30) printf "| %s | …and %d more values (--all lists them) | | |\n", L[i], wn[k] - 30
+  }
+  if (!all) print "\nUp to 3 places per value; --all lists every place."
+  print ""
   print "Counted: raw numbers only; var() is a token use. Skipped: test files, comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg)."
 }
 AWK
@@ -518,6 +544,7 @@ tab=$(printf '\t')
 {
   grep '^C' "$tmp/raw" | sort -t "$tab" -k2,2 -k3,3nr -k4,4 || true
   grep '^S' "$tmp/raw" || true
+  grep '^W' "$tmp/raw" | sort -t "$tab" -k2,2 -k3,3n -k4,4 || true
   grep '^O' "$tmp/raw" | sort -t "$tab" -k2,2r -k5,5 || true
   grep '^T' "$tmp/raw" | sort -t "$tab" -k4,4 -k5,5n || true
   grep '^U' "$tmp/raw" | sort -t "$tab" -k2,2r -k3,3 || true
