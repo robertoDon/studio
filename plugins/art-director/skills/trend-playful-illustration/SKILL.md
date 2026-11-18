@@ -21,7 +21,7 @@ Sticker-style illustration on a dark grid, soft 3D characters and floating emoji
 
 - **Use:** consumer apps, B2C SaaS, annual reports, kids, events, education.
 - **Don't use:** luxury, serious finance, legal, serious health.
-- Before adding a mascot, check the house yardstick: some products forbid mascots (e.g., Don products, see `don-acabamento`). The house yardstick wins.
+- Before adding a mascot, check the house rules (DESIGN.md, a style guide, the project's own design-system or brand skill): some products forbid mascots. The house rules win.
 
 ## How to apply by surface
 

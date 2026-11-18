@@ -5,4 +5,4 @@ argument-hint: "[file, folder or screen; empty = main screens]"
 
 Use the `design-critic` agent on: $ARGUMENTS (if empty, on the project's 3–5 main screens).
 
-Measure, don't opine (value counts, contrast, durations). Return the findings table with severity 0–4 and the 3 fixes that change the screen most.
+Measure, don't opine (value counts, contrast, durations). Patterns the house chose on purpose are not findings. Return the findings table with severity 0–4 and the 3 fixes that change the screen most.

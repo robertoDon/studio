@@ -6,7 +6,7 @@
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-111111?style=flat-square"></a>
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-1a3cff?style=flat-square">
   <img alt="47 skills" src="https://img.shields.io/badge/skills-47-111111?style=flat-square">
-  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-111111?style=flat-square">
+  <img alt="version 1.1.0" src="https://img.shields.io/badge/version-1.1.0-111111?style=flat-square">
 </p>
 
 **Claude writes good code and ships the same screen every time.** Purple gradient, three identical cards, raw Inter, a fade-up on every scroll. art-director gives Claude Code the judgment of a working art director. It reads your product, picks the one design school that fits your audience, and writes the rules into a `DESIGN.md` that every later screen has to follow.
@@ -44,7 +44,7 @@ A theme changes colors. A school is a full rulebook. Each `school-*` skill cover
 
 1. **X-ray.** Reads the code, copy and tokens before asking anything, and counts the stray values.
 2. **Briefing.** At most 3 questions, and only the ones that change the choice.
-3. **Choice.** Crosses the sector with the image you want, then lets the audience decide. One main school (about 70%), one accent (20–30%, in one or two places), and the base, always.
+3. **Choice.** Crosses the sector with the image you want, then lets the audience decide. One main school (about 70%), one accent (20–30%, in one or two places), and the base, always. Already have a look? It names it and tightens it instead of starting over.
 4. **Record.** Writes `DESIGN.md`: diagnosis, direction, tokens, rules per surface, forbidden list, open decisions and history.
 5. **Apply and review.** Tokens first, then the most-opened screen, in small slices with before and after in numbers. Then a critic scores the result against `DESIGN.md`.
 
@@ -59,6 +59,8 @@ The `anti-generic` skill lists the patterns that give a screen away as AI-made o
 - Small-caps labels above every heading
 - Dots between words, an arrow on every button
 - Fade-up on every scroll, phones floating in perspective
+
+A pattern your house chose on purpose (your brand purple, your Inter) is not flagged.
 
 And the rules it never breaks:
 

@@ -5,7 +5,7 @@ description: The list of what gives a screen an AI-made or template look (purple
 
 # Anti-generic · What gives away a generated screen
 
-Source: Muzli's series on "AI slop" (2026): [muzli-mcp-design-with-ai](https://muz.li/blog/muzli-mcp-design-with-ai/), [are-we-out-of-new-things](https://muz.li/blog/are-we-out-of-new-things/), [vibe-design-in-2026](https://muz.li/blog/vibe-design-in-2026-what-ai-generated-ui-means-for-your-work/). Plus the Don yardstick: stray values are the other half of the generated look.
+Source: Muzli's series on "AI slop" (2026): [muzli-mcp-design-with-ai](https://muz.li/blog/muzli-mcp-design-with-ai/), [are-we-out-of-new-things](https://muz.li/blog/are-we-out-of-new-things/), [vibe-design-in-2026](https://muz.li/blog/vibe-design-in-2026-what-ai-generated-ui-means-for-your-work/). Plus stray values: a screen with no scale behind it is the other half of the generated look.
 
 Every school ranks below this list. A perfect Swiss screen with three identical cards and an indigo gradient still looks like a template.
 
@@ -24,7 +24,15 @@ Every school ranks below this list. A perfect Swiss screen with three identical 
 | The literal image the name suggests (an app called "Overdue" with a library stamp) | The first idea, not an idea. |
 | A phone floating in 2016-style perspective, a screenshot over a blurred photo | A "Dribbble shot", not an interface. |
 | Emoji as icons, icons from mixed sets | No system. |
-| 11 text sizes, 14 spacings, 10 radii | Stray values (Don yardstick). |
+| 11 text sizes, 14 spacings, 10 radii | Stray values: no scale behind the screen. Count them with the `art-direction` counting script. |
+
+## The house decides
+
+A pattern from the table is a finding only when it is an **unchosen default**. If the DESIGN.md, a style guide, the brand or a house skill chose it (Inter, the brand purple, a card grid), it is a decision, not a giveaway.
+
+- Don't flag it. Don't propose swapping it. At most a severity-0 note, once.
+- Flag what the house did not choose around it. E.g. with a brand purple: flag the purple-to-blue gradient and the identical cards, not the purple.
+- Accessibility still applies. A house choice never excuses contrast below 4.5:1 or state shown by color alone.
 
 ## The method to escape it
 
@@ -35,7 +43,7 @@ Every school ranks below this list. A perfect Swiss screen with three identical 
 5. **One hook only.** The formula Muzli sees most in the best sites: one bold hook (3D, color or illustration) + clean type + structured layout. Two hooks fight.
 6. **Design the edges:** empty, error, loading, disabled, long text, a 40-letter name, a 7-digit number. A template only designs the happy path.
 7. **Real content.** The product's real text, numbers and photos. Lorem ipsum hides hierarchy problems.
-8. **A font that isn't the default.** Roboto, Open Sans, Montserrat and Poppins barely appear on gallery sites; Inter on its own has become a default signal. If you use Inter, give it a dramatic scale and a pairing (mono or display) with a reason.
+8. **A font that isn't the default** (unless the house chose it). Roboto, Open Sans, Montserrat and Poppins barely appear on gallery sites; Inter on its own has become a default signal. If you use Inter, give it a dramatic scale and a pairing (mono or display) with a reason.
 
 ## Quick test (30 seconds)
 
@@ -47,7 +55,7 @@ Cover the logo. Could the screen belong to any other product in the sector? If y
 
 ## Checklist
 
-1. Does no pattern from the table appear without the direction asking for it?
+1. Does no pattern from the table appear without the direction or the house choosing it?
 2. Are the references written down with what was taken from each?
 3. Is the accent the brand's, not the kit's?
 4. Is there a hook, and only one?

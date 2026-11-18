@@ -14,6 +14,7 @@ The "subject" of the screen decides a lot about the school.
 | People and community (social, events) | Pop/Memphis, Maximalist, Bento |
 | Body and performance (training, sport) | Sport, Dark Tech |
 | Serious service (health, government, banking, legal) | Trusted Corporate, Swiss |
+| Conversation with people and agents (chat, copilot, shared workspace) | Refined Minimalism, Utilitarian, Editorial, Swiss |
 | Creative or technical tool (dev, AI, audio) | Dark Tech, Tactile, Utilitarian, Spatial Glass |
 | Learning and childhood | Clay 3D, Pop/Memphis, Material |
 
@@ -44,7 +45,7 @@ List 2–3. The question is: do we want to **look like the sector** (trust) or *
 
 ## 6. What is already fixed?
 
-Logo, brand color, font, house yardstick, DESIGN.md, recorded decisions. What is fixed is not up for debate; the school adapts.
+Logo, brand color, font, house yardstick, DESIGN.md, recorded decisions. What is fixed is not up for debate; the school adapts. Lots fixed and no redesign asked? The route is name and tighten (see the skill).
 
 ## 7. What must not happen?
 

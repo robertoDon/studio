@@ -17,8 +17,8 @@ Before asking anything, read what already exists. What the code and copy say out
 
 - README, CLAUDE.md, DESIGN.md (if one exists, start from it), landing page, interface copy, `package.json`.
 - Stack: framework, CSS (Tailwind, CSS Modules, vars), component library, loaded fonts.
-- Current tokens: count the distinct values of `font-size`, spacing, radius and color. Lots of stray values = a "generated" look.
-- House skills: if the project has its own finish skill (e.g. `don-acabamento`, `*-acabamento`, a yardstick), it **rules**. The school works underneath it, never against it.
+- Current tokens: run `scripts/count-values.sh <project-dir>` from this skill's base directory. It counts text sizes, fonts, spacing, radius, color, shadow, durations and z-index the same way every time. Lots of stray values = a "generated" look.
+- House rules: the project's own design-system, brand or finish skill (in `.claude/skills/`), a style guide, a DESIGN.md. They **rule**. The school works underneath them, never against them. Note where each one lives and what it fixes (fonts, colors, banned items, a motion ceiling).
 - Main screens: which screen do people open most? That is where the direction has to shine.
 
 On a large project, use the `project-reader` agent for this.
@@ -36,7 +36,20 @@ The 4 that change the answer most:
 
 ### 3. Choice (matrix → schools)
 
-Use [references/matrix.md](references/matrix.md):
+First, the starting point:
+
+- **The product already has an identity** (a DESIGN.md, a style guide, a house skill, or a look the X-ray can name) and nobody asked for a redesign → **name and tighten**.
+- **From scratch, or a redesign was asked for** → **full choice**.
+
+**Name and tighten.** Same look, stricter standard. Not a new look.
+
+1. **Name it.** Which school is the current look closest to? Measure it with that school's checklist. Say which parts match and which don't.
+2. **Keep the identity.** Logo, brand color, type and every recorded decision stay. That is what people recognize.
+3. **Tighten.** Collapse stray values into tokens (from the count), fix accessibility, bring motion under the ceiling, remove the `anti-generic` patterns the house did not choose.
+4. **Fill gaps only.** Where the house has no rule (empty states, charts, motion), borrow that part from the named school or an accent.
+5. **No safe × bold routes.** If the X-ray shows the identity fails the audience, record a redesign as an open decision for the owner. Don't start it.
+
+**Full choice.** Use [references/matrix.md](references/matrix.md):
 
 1. Cross **sector** with **desired image** to find 3 candidate schools.
 2. Filter by **audience** (age, density it can handle, context) and by **surface**.
@@ -46,6 +59,12 @@ Use [references/matrix.md](references/matrix.md):
    - **Base** (always): `anti-generic`, `base-ux`, `base-accessibility`, `base-typography`, `base-color`, `base-motion`, `base-layout-grid`, `base-microcopy`, plus the surface skill (`surface-*`).
 4. Never mix two schools that clash (each school lists them).
 5. Present 2 routes when the choice is not obvious: the **safe** one (what the sector expects) and the **bold** one (what sets it apart). Say which you recommend and why.
+
+**Adopting part of a school.** A school does not have to come whole. Its parts are the sections of every `school-*` skill: grid, type, color, shape, imagery, spacing, motion.
+
+- Write the parts taken and the parts left out. E.g. "Swiss: grid and type scale taken; color and imagery stay with the house."
+- A part left out follows the house (or the main school, when the partial one is the accent).
+- The school's checklist applies only to the parts taken. Never flag a screen for breaking a rule of a part left out.
 
 ### 4. Record (DESIGN.md)
 
@@ -74,14 +93,20 @@ If the project already has a DESIGN.md or a house yardstick, **update** it inste
 ## Direction deliverable (response format)
 
 ```
-1. X-ray: what the product is today, in 4–6 lines (with current token counts)
-2. Diagnosis: sector · audience · desired image · surfaces
-3. Direction: main school + accent + base, each with its reason
+1. X-ray: what the product is today, in 4–6 lines, plus the counting script's table
+2. Briefing: each question asked and its answer; what nobody answered is marked "(assumed)"
+3. House rules found: where each lives and what it fixes (fonts, colors, banned items, motion ceiling)
+4. Diagnosis: sector · audience · desired image · surfaces · route (name and tighten | full choice)
+5. Direction: main school + accent + base, each with its reason and the parts taken
    (if there are two routes: safe × bold, and which one I recommend)
-4. The look in one sentence ("Swiss with Scandinavian warmth: clear information, no chill")
-5. Starting tokens and the 3 rules that change the screen most
-6. Application plan: what changes, in what order, in which files
+6. Conflicts with the house: school rule × house rule → the house wins → what changes
+7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene) · ceiling · fix
+8. The look in one sentence ("Swiss with Scandinavian warmth: clear information, no chill")
+9. Starting tokens and the 3 rules that change the screen most
+10. Application plan: what changes, in what order, in which files
 ```
+
+An item with nothing in it says "none found". Never drop it: an empty item is a finding too.
 
 After that, the DESIGN.md is written, and application starts only with the owner's ok.
 

@@ -9,7 +9,8 @@ Legend: **M** = good as main · *a* = good as accent.
 | Sector | Safe route (what the sector expects) | Bold route (what sets it apart) | Avoid |
 |---|---|---|---|
 | B2B SaaS, CRM, management | Refined Minimalism **M**, Swiss **M**, Bento *a* | Dark Tech **M**, Neobrutalism *a* | Maximalist, Y2K |
-| Dev tools, AI, infrastructure | Dark Tech **M**, Utilitarian **M** | Tactile *a*, Y2K *a*, Spatial Glass *a* | Clay 3D, Handcrafted |
+| Dev tools, AI infrastructure, APIs | Dark Tech **M**, Utilitarian **M** | Tactile *a*, Y2K *a*, Spatial Glass *a* | Clay 3D, Handcrafted |
+| Collaboration and AI agents (shared workspaces, chat with people and agents, copilots) | Refined Minimalism **M**, Utilitarian **M**, Swiss *a* | Dark Tech **M**, Editorial *a* (reading voice for long answers), Bento *a*, Tactile *a* | Spatial Glass as main, Maximalist, Y2K, the purple AI gradient |
 | Fintech, banking, investing | Trusted Corporate **M**, Refined Minimalism **M** | Dark Tech **M**, Bento *a*, Clay 3D *a* (young fintech) | Maximalist, raw Neobrutalism |
 | Trading, crypto, heavy data | Utilitarian **M**, Dark Tech **M** | Y2K *a*, Spatial Glass *a* | Scandinavian, Handcrafted |
 | Health, clinics, health plans | Trusted Corporate **M**, Scandinavian **M** | Organic **M**, Refined Minimalism *a* | Dark Tech, Y2K, Maximalist |
@@ -85,6 +86,7 @@ Legend: **M** = good as main · *a* = good as accent.
 
 - **Running training app for 25–40, wants "energetic + modern", mobile:** Sport **M** + Dark Tech *a*. Condensed italic numbers, dark background during the live workout, light in the history.
 - **Family recipe app, "welcoming + handcrafted", mobile + website:** Handcrafted **M** + Scandinavian *a*. A serif with personality in titles, real food photos, cream paper, rounded buttons.
-- **CRM for small businesses, "cool + affordable-premium", web + mobile:** Refined Minimalism **M** + Dark Tech *a* on the landing page. House finish (`don-acabamento`) on top.
+- **CRM for small businesses, "cool + affordable-premium", web + mobile:** Refined Minimalism **M** + Dark Tech *a* on the landing page. The house's own finish rules, if it has any, on top.
+- **Workspace where people and AI agents work together, "calm + smart + trustworthy", web app:** Refined Minimalism **M** + Utilitarian *a*. Agent vs person shown by a label and the avatar shape, never by color alone. Answers appear whole or by block, no per-token fade. Motion only for state (thinking, done, failed).
 - **Jewelry brand, "chic", e-commerce:** Quiet Luxury **M** + Editorial *a*. Thin display serif, photos on off-white, a single gold only on the CTA.
 - **Finance app for Gen Z, "youthful + trustworthy":** Refined Minimalism **M** + Clay 3D *a* (illustration and empty states) or Neobrutalism *a* (landing page). Trust in the app, boldness in the shop window.

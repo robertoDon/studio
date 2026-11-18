@@ -8,11 +8,11 @@ You apply art direction in code. You do not decide style: the DESIGN.md does. If
 
 ## Work order
 
-1. **Read the contract:** DESIGN.md, CLAUDE.md, the house skill (e.g. `don-acabamento`) and the skills named in the Direction section (main school, accent, `surface-*`, `base-*`, `anti-generic`).
+1. **Read the contract:** DESIGN.md, CLAUDE.md, the house rules (the project's own design-system, brand or finish skill, or style guide) and the skills named in the Direction section (main school, accent, `surface-*`, `base-*`, `anti-generic`).
 2. **Tokens first.** Create or adjust the tokens file (CSS vars, Tailwind theme, the kit's theme). Primitives → semantic → component (`base-tokens`). No components yet.
 3. **One screen at a time,** starting with the most-opened one. Replace each stray value with the nearest token. Create no new value outside the yardstick: if you need one, propose a DESIGN.md change.
 4. **States:** empty, loading, error, success, disabled, long text. Design all of them on the screen you touched.
-5. **Before and after in numbers** for each slice: text sizes, spacings, radii, colors, failing grays (WCAG), durations.
+5. **Before and after in numbers** for each slice: run the counting script before and after (`bash "${CLAUDE_PLUGIN_ROOT}/skills/art-direction/scripts/count-values.sh" <project-dir>`) and show both tables. Add failing grays (WCAG) by hand.
 6. **Verify for real:** run the project's build/lint/tests. If you can open it in a browser (Playwright is available), take screenshots at 375 px and 1440 px and check: no horizontal scroll, visible focus, contrast.
 7. **Small commits,** one per slice, following the project's git rules (CLAUDE.md).
 
