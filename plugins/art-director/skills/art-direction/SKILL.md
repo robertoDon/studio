@@ -17,7 +17,14 @@ Before asking anything, read what already exists. What the code and copy say out
 
 - README, CLAUDE.md, DESIGN.md (if one exists, start from it), landing page, interface copy, `package.json`.
 - Stack: framework, CSS (Tailwind, CSS Modules, vars), component library, loaded fonts.
-- Current tokens: run `scripts/count-values.sh <project-dir>` from this skill's base directory. It counts text sizes, fonts, spacing, radius, color, shadow, durations and z-index the same way every time. Lots of stray values = a "generated" look.
+- Current tokens: run the counting script (below). It counts text sizes, fonts, spacing, radius, color, shadow, durations and z-index the same way every time. Lots of stray values = a "generated" look.
+
+  **The counting script.** `bash <dir>/count-values.sh <app-dir>`, where `<dir>` is the first of these that exists:
+  1. `$CLAUDE_PLUGIN_ROOT/skills/art-direction/scripts`
+  2. `scripts/` next to this SKILL.md: the skill's base directory, or the folder of the path you read it from (this also covers a plugin run from its source folder)
+  3. the newest install: `ls -d ~/.claude/plugins/cache/*/art-director/*/skills/art-direction/scripts | sort -V | tail -1`
+
+  Run it in the folder of the app in scope, not at a monorepo root: the header lists the subprojects it found. Paste its tables as they are.
 - House rules: the project's own design-system, brand or finish skill (in `.claude/skills/`), a style guide, a DESIGN.md. They **rule**. The school works underneath them, never against them. Note where each one lives and what it fixes (fonts, colors, banned items, a motion ceiling).
 - Main screens: which screen do people open most? That is where the direction has to shine.
 
@@ -46,7 +53,7 @@ First, the starting point:
 1. **Name it.** Which school is the current look closest to? Measure it with that school's checklist. Say which parts match and which don't.
 2. **Keep the identity.** Logo, brand color, type and every recorded decision stay. That is what people recognize.
 3. **Tighten.** Collapse stray values into tokens (from the count), fix accessibility, bring motion under the ceiling, remove the `anti-generic` patterns the house did not choose.
-4. **Fill gaps only.** Where the house has no rule (empty states, charts, motion), borrow that part from the named school or an accent.
+4. **Fill gaps only.** Where the house has no rule (empty states, charts, motion), borrow that part from the named school. An accent is **optional** here: add one only for a gap the named school doesn't cover, and only from its "pairs with" list. No gap, no accent.
 5. **No safe × bold routes.** If the X-ray shows the identity fails the audience, record a redesign as an open decision for the owner. Don't start it.
 
 **Full choice.** Use [references/matrix.md](references/matrix.md):
@@ -98,9 +105,10 @@ If the project already has a DESIGN.md or a house yardstick, **update** it inste
 3. House rules found: where each lives and what it fixes (fonts, colors, banned items, motion ceiling)
 4. Diagnosis: sector · audience · desired image · surfaces · route (name and tighten | full choice)
 5. Direction: main school + accent + base, each with its reason and the parts taken
+   (name and tighten with no gap to fill: "Accent: none")
    (if there are two routes: safe × bold, and which one I recommend)
 6. Conflicts with the house: school rule × house rule → the house wins → what changes
-7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene) · ceiling · fix
+7. Motion over the ceiling: where (file:line) · value · kind (touch, reveal, scene; the script guesses it, you confirm it) · ceiling · fix
 8. The look in one sentence ("Swiss with Scandinavian warmth: clear information, no chill")
 9. Starting tokens and the 3 rules that change the screen most
 10. Application plan: what changes, in what order, in which files

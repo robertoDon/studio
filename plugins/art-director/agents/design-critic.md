@@ -18,7 +18,7 @@ When two rules clash, the house beats the school and `anti-generic`. Nothing bea
 6. **Anti-generic:** any pattern from the list that nobody chose? Cover-the-logo test. A pattern the house chose on purpose (DESIGN.md, style guide, brand, house skill) is not a finding.
 7. **Motion:** durations within the project's ceiling (default: touch ≤ 160 ms, reveal ≤ 700 ms, scene ≤ 1.2 s).
 
-Measure, don't opine: count values with the counting script (`bash "${CLAUDE_PLUGIN_ROOT}/skills/art-direction/scripts/count-values.sh" <project-dir>`), compute contrast, read durations. If you can render (Playwright), look at 375 px and 1440 px.
+Measure, don't opine: count values with the counting script (`count-values.sh`; where to find it: `art-direction`, "The counting script"), compute contrast, read durations. If you can render (Playwright), look at 375 px and 1440 px.
 
 ## Format
 

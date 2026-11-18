@@ -66,7 +66,7 @@ Weimar and Dessau, 1919–1933 (Walter Gropius, Herbert Bayer, László Moholy-N
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-swiss` (grid), `school-neobrutalism` (flat color), `school-pop-memphis` (the playful version).
+- **Pairs with:** `school-swiss` (grid), `school-neobrutalism` (flat color), `school-pop-memphis` (the playful version), `school-tactile`.
 - **Clashes with:** `school-quiet-luxury`, `school-spatial-glass`, `school-organic`.
 
 ## Checklist

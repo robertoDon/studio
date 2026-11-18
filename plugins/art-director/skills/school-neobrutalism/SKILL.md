@@ -67,7 +67,7 @@ Web brutalism began as a reaction to polished design (brutalistwebsites.com, Pas
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-pop-memphis`, `school-bauhaus`, `school-y2k-retrofuture`, `school-maximalist`.
+- **Pairs with:** `school-pop-memphis`, `school-bauhaus`, `school-y2k-retrofuture`, `school-maximalist`, `school-sport`.
 - **Clashes with:** `school-quiet-luxury`, `school-spatial-glass`, `school-refined-minimalism`, `school-japanese`.
 
 ## Checklist

@@ -69,7 +69,7 @@ The name comes from the Japanese lunch box with compartments. In interfaces it s
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-refined-minimalism`, `school-dark-tech`, `school-spatial-glass`, `school-utilitarian`, `school-clay-3d`.
+- **Pairs with:** `school-refined-minimalism`, `school-dark-tech`, `school-spatial-glass`, `school-utilitarian`, `school-clay-3d`, `school-material`, `school-pop-memphis`, `school-sport`.
 - **Clashes with:** `school-editorial` (reading flow), `school-quiet-luxury` (density), `school-japanese`.
 
 ## Checklist

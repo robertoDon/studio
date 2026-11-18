@@ -34,7 +34,7 @@ Updated <date> · by <who decided> · Art Director plugin <version>
 | Role | School | Parts taken | Why | Where it shows |
 |---|---|---|---|---|
 | Main | school-<x> | all, or <grid, type...> · left out: <color → house> | <because audience/sector/image> | grid, type, form |
-| Accent | school-<y> or trend-<z> | <the one or two parts> | <because> | <hero, empty states, accent...> |
+| Accent | school-<y> or trend-<z>, or "none" (name and tighten with no gap) | <the one or two parts> | <because> | <hero, empty states, accent...> |
 | Base | base-*, surface-<...>, anti-generic | all | always | everything |
 | House | <where the house rules live, or "none"> | — | rules over the schools and anti-generic, not over accessibility | everything |
 

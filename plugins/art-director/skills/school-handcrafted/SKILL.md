@@ -71,7 +71,7 @@ From 19th-century labels and posters printed with movable type, hand-painted sig
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-editorial` (serif and rhythm), `school-organic` (earthy, natural photos), `school-scandinavian` (wood, warmth), `school-maximalist` (poster).
+- **Pairs with:** `school-editorial` (serif and rhythm), `school-organic` (earthy, natural photos), `school-scandinavian` (wood, warmth), `school-maximalist` (poster), `school-japanese`.
 - **Clashes with:** `school-dark-tech`, `school-y2k-retrofuture`, `school-spatial-glass`, `school-utilitarian`.
 
 ## Checklist

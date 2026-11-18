@@ -1,28 +1,37 @@
 # Value count
 
-art-director count-values 1.0 · 2 files scanned
+art-director count-values 1.1 · 3 files scanned
+
+Subprojects (own package.json): apps/web (1 file). Monorepo: run once per app, in the app folder.
+
+Left out, nested repos (own .git): other.
 
 | Kind | Uses | Unique | Top 5 (value ×uses) |
 |---|---|---|---|
-| Text size | 6 | 4 | 14px ×2, tw sm ×2, 1.5rem ×1, 15px ×1 |
-| Font family | 2 | 2 | georgia ×1, inter ×1 |
+| Text size | 7 | 5 | 14px ×2, tw sm ×2, 1.5rem ×1, 15px ×1, 32px ×1 |
+| Font family | 4 | 4 | fraunces ×1, georgia ×1, inter ×1, ui-monospace ×1 |
 | Spacing | 7 | 5 | 16px ×2, tw 4 ×2, 13px ×1, 24px ×1, 8px ×1 |
 | Radius | 3 | 3 | 12px ×1, tw default ×1, tw lg ×1 |
 | Color | 5 | 4 | #333333 ×2, #ff0000 ×1, rgba(0,0,0,.06) ×1, rgba(0,0,0,0.5) ×1 |
 | Shadow | 2 | 2 | 0 1px 2px rgba(0, 0, 0, .06) ×1, tw md ×1 |
-| Duration | 5 | 4 | 300ms ×2, 2000ms ×1, 200ms ×1, 800ms ×1 |
+| Duration | 14 | 8 | 300ms ×3, 1000ms ×2, 1850ms ×2, 2000ms ×2, 900ms ×2 |
 | z-index | 2 | 2 | 10 ×1, tw 50 ×1 |
 | Tailwind arbitrary value | 3 | 3 | bg-[#ff0000] ×1, gap-[13px] ×1, text-[15px] ×1 |
-| CSS variable defined | 3 | 3 | --brand ×1, --font-sans ×1, --space-2 ×1 |
+| CSS variable defined | 5 | 5 | --brand ×1, --display ×1, --font-sans ×1, --mono ×1, --space-2 ×1 |
 | CSS variable used | 1 | 1 | --space-2 ×1 |
 
-Durations over 160 ms (loops left out). Check each against the ceiling: touch 160, reveal 700, scene 1200, delays included.
+Durations over the ceiling (loops left out; delays and timers included). Ceiling by kind: touch 160, reveal 700, scene 1200; timer and ? use 160.
+The kind is a guess from nearby words: confirm it, and drop timers that are not motion (a debounce, a toast that closes).
 
-| ms | Where |
-|---|---|
-| 800 | src/Card.tsx:4 |
-| 300 | src/Card.tsx:3 |
-| 300 | src/styles.css:16 |
-| 200 | src/styles.css:16 |
+| ms | Kind (guess) | Ceiling | Where |
+|---|---|---|---|
+| 1850 | timer | 160 | src/Card.tsx:20 |
+| 900 | reveal | 700 | src/styles.css:32 |
+| 800 | ? | 160 | src/Card.tsx:4 |
+| 400 | timer | 160 | src/Card.tsx:21 |
+| 300 | ? | 160 | src/Card.tsx:3 |
+| 300 | ? | 160 | src/styles.css:16 |
+| 300 | touch | 160 | src/styles.css:30 |
+| 200 | ? | 160 | src/styles.css:16 |
 
 Counted: raw numbers only; var() is a token use. Skipped: comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg).

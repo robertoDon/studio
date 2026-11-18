@@ -19,3 +19,14 @@
 }
 .spinner { animation: spin 2s linear infinite; }
 .title { font-size: 1.5rem; padding: var(--space-2); color: #333333; }
+:root {
+  --display: "Fraunces", Georgia, serif;
+  --mono: ui-monospace, monospace;
+}
+.cursor {
+  animation: blink 1s steps(2) infinite;
+  animation-delay: 1.85s;
+}
+.btn:hover { transition: background 300ms; }
+.page-intro { transition: opacity 900ms; }
+.reveal { transition: opacity 900ms; }

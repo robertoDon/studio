@@ -74,7 +74,7 @@ Point the theme at the variables, not at values. In Tailwind v4, use `@theme`; i
 
 ## How to audit stray values
 
-1. List the distinct values in the code with the `art-direction` counting script: `bash "${CLAUDE_PLUGIN_ROOT}/skills/art-direction/scripts/count-values.sh" <project-dir>`. It also counts arbitrary classes like `p-[13px]`.
+1. List the distinct values in the code with the counting script (`count-values.sh`; where to find it: `art-direction`, "The counting script"). It also counts arbitrary classes like `p-[13px]`.
 2. Count per group. More than 4 text sizes, 8 spacings or 4 radii is already drift.
 3. Swap each value for its nearest neighbor on the yardstick. Need a new value? Change the yardstick (the token) first, not the screen.
 4. Show before and after with numbers (e.g. 11 → 4 sizes, 14 → 7 spacings).

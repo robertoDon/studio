@@ -70,7 +70,7 @@ The turn of the millennium: the translucent iMac G3, Winamp, MSN, Hype Williams 
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-maximalist`, `school-pop-memphis`, `school-dark-tech` (dark base), `school-spatial-glass` (translucency).
+- **Pairs with:** `school-maximalist`, `school-pop-memphis`, `school-dark-tech` (dark base), `school-spatial-glass` (translucency), `school-neobrutalism`.
 - **Clashes with:** `school-quiet-luxury`, `school-trusted-corporate`, `school-scandinavian`, `school-handcrafted`.
 
 ## Checklist

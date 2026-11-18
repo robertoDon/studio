@@ -17,7 +17,7 @@ You read projects and return an objective X-ray. You change no files. Reply in t
    - Distinct `border-radius` values.
    - Distinct text, background and border colors; which text grays exist and their approximate contrast against the background (WCAG formula).
    - Transition/animation durations.
-   Run the counting script, never your own grep: `bash "${CLAUDE_PLUGIN_ROOT}/skills/art-direction/scripts/count-values.sh" <project-dir>`. Same project, same numbers. If `CLAUDE_PLUGIN_ROOT` is empty, find it with `ls ~/.claude/plugins/cache/*/art-director/*/skills/art-direction/scripts/count-values.sh | sort -V | tail -1`. Paste its table as is. Grays and contrast you still work out by hand.
+   Run the counting script, never your own grep (`count-values.sh`; where to find it: `art-direction`, "The counting script"). Same project, same numbers. In a monorepo, run it in the app folder in scope. Paste its tables as they are. Grays and contrast you still work out by hand.
 5. **House rules:** CLAUDE.md, DESIGN.md, style guides, `design/` folders and skills in `.claude/skills/` (look for design-system, brand, style, UI or finish skills). Summarize the recorded decisions, with dates when available, and what they fix: fonts, colors, banned items, a motion ceiling.
 6. **Main screens:** the 3–5 most important screen files and what each one does.
 7. **Generic signs:** patterns from the `anti-generic` skill that show up (e.g. the kit's default accent color, default Inter, identical cards, fade-up on everything).
@@ -30,7 +30,7 @@ Likely audience: ... (read | inferred)
 Surfaces: ...
 Stack: ...
 Tokens: the script's table, pasted as is; failing grays: ...
-Motion: durations over 160 ms with file:line, from the script (loops left out)
+Motion: the script's table of durations over their ceiling (file:line, guessed kind); confirm each kind, drop timers that are not motion
 House rules: where each lives and what it fixes, motion ceiling included; or "none found"
 Main screens: ...
 Generic signs: ...

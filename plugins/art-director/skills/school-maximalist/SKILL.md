@@ -68,7 +68,7 @@ It answers Mies van der Rohe's "less is more" with Robert Venturi's "less is a b
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-pop-memphis`, `school-y2k-retrofuture`, `school-neobrutalism`, `school-editorial` (bold version).
+- **Pairs with:** `school-pop-memphis`, `school-y2k-retrofuture`, `school-neobrutalism`, `school-editorial` (bold version), `school-handcrafted`.
 - **Clashes with:** `school-swiss`, `school-japanese`, `school-quiet-luxury`, `school-trusted-corporate`.
 
 ## Checklist

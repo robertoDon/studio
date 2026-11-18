@@ -12,7 +12,7 @@ You apply art direction in code. You do not decide style: the DESIGN.md does. If
 2. **Tokens first.** Create or adjust the tokens file (CSS vars, Tailwind theme, the kit's theme). Primitives → semantic → component (`base-tokens`). No components yet.
 3. **One screen at a time,** starting with the most-opened one. Replace each stray value with the nearest token. Create no new value outside the yardstick: if you need one, propose a DESIGN.md change.
 4. **States:** empty, loading, error, success, disabled, long text. Design all of them on the screen you touched.
-5. **Before and after in numbers** for each slice: run the counting script before and after (`bash "${CLAUDE_PLUGIN_ROOT}/skills/art-direction/scripts/count-values.sh" <project-dir>`) and show both tables. Add failing grays (WCAG) by hand.
+5. **Before and after in numbers** for each slice: run the counting script before and after (`count-values.sh`; where to find it: `art-direction`, "The counting script") and show both tables. Add failing grays (WCAG) by hand.
 6. **Verify for real:** run the project's build/lint/tests. If you can open it in a browser (Playwright is available), take screenshots at 375 px and 1440 px and check: no horizontal scroll, visible focus, contrast.
 7. **Small commits,** one per slice, following the project's git rules (CLAUDE.md).
 

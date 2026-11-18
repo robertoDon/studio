@@ -67,7 +67,7 @@ Dieter Rams at Braun (1960s–90s, "Weniger, aber besser") and Jony Ive at Apple
 
 ## Pairs with / clashes with
 
-- **Pairs with:** `school-swiss`, `school-spatial-glass`, `school-bento`, `school-japanese`.
+- **Pairs with:** `school-swiss`, `school-spatial-glass`, `school-bento`, `school-japanese`, `school-clay-3d`, `school-dark-tech`, `school-quiet-luxury`, `school-scandinavian`, `school-tactile`, `school-trusted-corporate`, `school-utilitarian`.
 - **Clashes with:** `school-maximalist`, `school-neobrutalism`, `school-pop-memphis`.
 
 ## Checklist

@@ -89,4 +89,4 @@ Legend: **M** = good as main · *a* = good as accent.
 - **CRM for small businesses, "cool + affordable-premium", web + mobile:** Refined Minimalism **M** + Dark Tech *a* on the landing page. The house's own finish rules, if it has any, on top.
 - **Workspace where people and AI agents work together, "calm + smart + trustworthy", web app:** Refined Minimalism **M** + Utilitarian *a*. Agent vs person shown by a label and the avatar shape, never by color alone. Answers appear whole or by block, no per-token fade. Motion only for state (thinking, done, failed).
 - **Jewelry brand, "chic", e-commerce:** Quiet Luxury **M** + Editorial *a*. Thin display serif, photos on off-white, a single gold only on the CTA.
-- **Finance app for Gen Z, "youthful + trustworthy":** Refined Minimalism **M** + Clay 3D *a* (illustration and empty states) or Neobrutalism *a* (landing page). Trust in the app, boldness in the shop window.
+- **Finance app for Gen Z, "youthful + trustworthy":** Refined Minimalism **M** + Clay 3D *a* (illustration and empty states). Bento *a* can replace it on the landing page. Trust in the app, a bolder shop window.
