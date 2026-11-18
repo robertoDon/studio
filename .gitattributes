@@ -1,0 +1,3 @@
+# The HTML/CSS only renders the README images; the plugin itself is Markdown.
+assets/src/** linguist-documentation
+*.md linguist-detectable
