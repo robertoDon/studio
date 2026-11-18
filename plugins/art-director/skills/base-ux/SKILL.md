@@ -1,106 +1,106 @@
 ---
 name: base-ux
-description: Base de UX de qualquer escola. Leis de UX (Fitts, Hick, Jakob, Miller, Tesler, Doherty, Peak-end, Von Restorff, Postel) e Gestalt traduzidas em regra de tela, mais as 10 heurísticas de Nielsen com formato de auditoria e severidade de 0 a 4. Use ao desenhar ou revisar tela, fluxo, formulário, navegação ou layout, ou quando pedirem "avaliação heurística", "auditoria de UX", "por que essa tela confunde", "como deixar mais fácil", "leis de UX", "Gestalt".
+description: The UX base under every school. Laws of UX (Fitts, Hick, Jakob, Miller, Tesler, Doherty, Peak-end, Von Restorff, Postel) and Gestalt turned into screen rules, plus Nielsen's 10 heuristics with an audit format and 0–4 severity. Use when designing or reviewing a screen, flow, form, navigation or layout, or when the user asks for a "heuristic evaluation", "UX audit", "why is this screen confusing", "how do I make this easier", "laws of UX", "Gestalt".
 ---
 
-# Base de UX · Psicologia vira medida, heurística vira conserto
+# UX base · Psychology becomes measures, heuristics become fixes
 
-Fontes:
-- *Laws of UX*, de Jon Yablonski (lawsofux.com, O'Reilly 2020).
-- "10 Usability Heuristics for User Interface Design", de Jakob Nielsen (Nielsen Norman Group, 1994, revisado em 2020), e "Severity Ratings for Usability Problems".
+Sources:
+- *Laws of UX*, by Jon Yablonski (lawsofux.com, O'Reilly 2020).
+- "10 Usability Heuristics for User Interface Design", by Jakob Nielsen (Nielsen Norman Group, 1994, revised 2020), and "Severity Ratings for Usability Problems".
 
-A escola muda a cara do produto; a lei e a heurística não mudam. Use as leis para desenhar e as heurísticas para auditar.
+The school changes how the product looks; the laws and heuristics don't change. Use the laws to design and the heuristics to audit.
 
-## 1. Leis de UX
+## 1. Laws of UX
 
-| Lei | O que diz | Regra de tela |
+| Law | What it says | Screen rule |
 |---|---|---|
-| **Fitts** | O tempo para acertar um alvo cresce com a distância e cai com o tamanho. | Ação principal grande (≥ 44 px de altura) e perto da mão ou do cursor. Destruir fica longe de confirmar. No desktop, cantos e bordas são alvos "infinitos". |
-| **Hick** | O tempo de decisão cresce com o número de opções. | Até 1 ação principal e 2 secundárias por tela. Menu com mais de 7 itens vira grupos ou busca. Onboarding pergunta uma coisa por vez. |
-| **Jakob** | A pessoa passa a maior parte do tempo em outros produtos e espera que o seu funcione igual. | Logo no topo à esquerda leva à home. Carrinho no topo à direita. Busca com lupa. Swipe de voltar no iOS. Inove na cara, não na convenção. |
-| **Miller** | A memória de trabalho segura ~7±2 itens (na prática 4±1; Cowan, 2001). | Quebre números longos (cartão em blocos de 4). Formulário longo em etapas de 3–5 campos. Não peça para lembrar algo de outra tela: mostre de novo. |
-| **Tesler** | Toda tarefa tem uma complexidade que não some, só muda de lugar. | A complexidade fica com o sistema: CEP vira endereço, o fuso é detectado, o padrão já vem sugerido. |
-| **Doherty** | A produtividade dispara quando o sistema responde em menos de 400 ms. | Resposta visual em ≤ 100 ms. Passou de 400 ms, mostre skeleton ou progresso. Update otimista em ação que quase nunca falha. |
-| **Peak-end** | A memória de uma experiência é o pico e o fim. | Capriche no momento de valor (o primeiro resultado) e na conclusão. Erro no fim de um checkout estraga o resto. |
-| **Von Restorff** | O item diferente é o que fica lembrado. | Um destaque por tela, e não só por cor (`base-acessibilidade`). |
-| **Postel** | Seja liberal no que aceita e conservador no que envia. | Aceite telefone com ou sem máscara, data com barra ou traço, e-mail com espaço no fim. Normalize por baixo. |
-| **Posição serial** | Lembramos melhor do primeiro e do último item. | O mais importante no começo e no fim da navegação. |
-| **Zeigarnik / goal-gradient** | Tarefa incompleta fica na cabeça, e o esforço aumenta perto do fim. | Mostre progresso real ("Faltam 2 passos"), começando com a 1ª etapa já feita. Nunca invente progresso. |
+| **Fitts** | Time to hit a target grows with distance and shrinks with size. | Primary action large (≥ 44 px tall) and close to the hand or cursor. Destructive actions far from confirm. On desktop, corners and edges are "infinite" targets. |
+| **Hick** | Decision time grows with the number of options. | Up to 1 primary and 2 secondary actions per screen. A menu with more than 7 items becomes groups or search. Onboarding asks one thing at a time. |
+| **Jakob** | People spend most of their time in other products and expect yours to work the same way. | Logo top left goes home. Cart top right. Search with a magnifier. Swipe back on iOS. Innovate on the look, not on the convention. |
+| **Miller** | Working memory holds ~7±2 items (in practice 4±1; Cowan, 2001). | Break up long numbers (card number in blocks of 4). Long forms in steps of 3–5 fields. Don't ask people to remember something from another screen: show it again. |
+| **Tesler** | Every task has complexity that doesn't go away; it only moves. | The system carries the complexity: a ZIP code fills in the address, the time zone is detected, the default comes suggested. |
+| **Doherty** | Productivity soars when the system responds in under 400 ms. | Visual response in ≤ 100 ms. Past 400 ms, show a skeleton or progress. Optimistic updates for actions that almost never fail. |
+| **Peak-end** | People remember an experience by its peak and its end. | Polish the moment of value (the first result) and the finish. An error at the end of a checkout spoils everything before it. |
+| **Von Restorff** | The item that differs is the one remembered. | One highlight per screen, and not by color alone (`base-accessibility`). |
+| **Postel** | Be liberal in what you accept and conservative in what you send. | Accept phone numbers with or without formatting, dates with slashes or dashes, emails with a trailing space. Normalize behind the scenes. |
+| **Serial position** | We remember the first and last items best. | Put the most important items at the start and end of navigation. |
+| **Zeigarnik / goal-gradient** | Unfinished tasks stay on our mind, and effort rises near the end. | Show real progress ("2 steps left"), starting with step 1 already done. Never fake progress. |
 
-## 2. Gestalt: como o olho agrupa
+## 2. Gestalt: how the eye groups
 
-| Princípio | Regra de tela |
+| Principle | Screen rule |
 |---|---|
-| **Proximidade** | O espaço entre grupos é ≥ 2× o espaço dentro do grupo. Rótulo a 4–8 px do campo; campos separados por 16–24 px. |
-| **Semelhança** | O que faz a mesma coisa tem a mesma cara. Parece igual e age diferente é bug. |
-| **Região comum** | Card, fundo ou borda agrupa mais forte que proximidade. Use por seção, não por item (card dentro de card é ruído). |
-| **Continuidade** | O olho segue alinhamentos. Alinhe a poucas verticais; cada alinhamento novo é uma pergunta a mais. |
-| **Figura-fundo** | Modal, folha e menu se descolam do fundo com véu de 40–60% ou sombra de elevação. |
-| **Fechamento** | Card cortado na borda avisa que há scroll horizontal. |
-| **Destino comum** | O que se move junto é do mesmo grupo. Anime o grupo, não cada item fora de sincronia. |
+| **Proximity** | Space between groups is ≥ 2× the space within a group. Label 4–8 px from its field; fields 16–24 px apart. |
+| **Similarity** | Things that do the same job look the same. Looks the same but acts differently is a bug. |
+| **Common region** | A card, background or border groups more strongly than proximity. Use it per section, not per item (a card inside a card is noise). |
+| **Continuity** | The eye follows alignments. Align to few verticals; every new alignment is one more question. |
+| **Figure-ground** | Modals, sheets and menus lift off the background with a 40–60% scrim or an elevation shadow. |
+| **Closure** | A card cut off at the edge signals horizontal scroll. |
+| **Common fate** | Things that move together belong together. Animate the group, not each item out of sync. |
 
-## 3. As 10 heurísticas de Nielsen
+## 3. Nielsen's 10 heuristics
 
-| # | Heurística | O que procurar |
+| # | Heuristic | What to look for |
 |---|---|---|
-| 1 | **Visibilidade do estado do sistema** | Todo clique responde em ≤ 100 ms. Carregamento acima de 1 s mostra progresso. Aba ativa, título e "Salvo" visíveis. |
-| 2 | **Correspondência com o mundo real** | Palavra do usuário ("Clientes", não "Entidades"). Formato local (dd/mm/aaaa, R$ 1.234,56). |
-| 3 | **Controle e liberdade** | Desfazer em vez de "Tem certeza?". Voltar sempre funciona. Modal fecha com Esc e clique fora. |
-| 4 | **Consistência e padrões** | Mesma palavra e mesma posição para a mesma coisa. Segue a plataforma (HIG, Material). |
-| 5 | **Prevenção de erros** | Esconde ou desabilita o impossível. Confirma só o irreversível, com o nome do que some. Valida no campo. |
-| 6 | **Reconhecer em vez de lembrar** | Opções, recentes e sugestões visíveis. Placeholder não substitui rótulo. |
-| 7 | **Flexibilidade e eficiência** | Atalhos, ⌘K, ação em lote. O iniciante não vê, o experiente acelera. |
-| 8 | **Estética e minimalismo** | Cada elemento compete com os outros. Um assunto por tela. |
-| 9 | **Reconhecer, diagnosticar e sair do erro** | O erro diz o que houve e como resolver, perto do campo. Nunca "Erro 500" sozinho. |
-| 10 | **Ajuda e documentação** | Ajuda no ponto da dúvida (tooltip, texto de apoio). O ideal é não precisar. |
+| 1 | **Visibility of system status** | Every click responds in ≤ 100 ms. Loading over 1 s shows progress. Active tab, title and "Saved" visible. |
+| 2 | **Match between system and the real world** | The user's words ("Customers", not "Entities"). Local formats (e.g. dd/mm/yyyy, R$ 1.234,56 in Brazil). |
+| 3 | **User control and freedom** | Undo instead of "Are you sure?". Back always works. Modals close with Esc and a click outside. |
+| 4 | **Consistency and standards** | Same word and same position for the same thing. Follow the platform (HIG, Material). |
+| 5 | **Error prevention** | Hide or disable the impossible. Confirm only the irreversible, naming what disappears. Validate in the field. |
+| 6 | **Recognition rather than recall** | Options, recents and suggestions visible. A placeholder doesn't replace a label. |
+| 7 | **Flexibility and efficiency of use** | Shortcuts, ⌘K, bulk actions. Beginners don't see them; experts speed up. |
+| 8 | **Aesthetic and minimalist design** | Every element competes with the others. One subject per screen. |
+| 9 | **Help users recognize, diagnose and recover from errors** | The error says what happened and how to fix it, next to the field. Never "Error 500" alone. |
+| 10 | **Help and documentation** | Help at the point of doubt (tooltip, helper text). Ideally, none is needed. |
 
-## 4. Auditoria
+## 4. Audit
 
-**Severidade (Nielsen):**
+**Severity (Nielsen):**
 
-| Nota | Significado | Ação |
+| Score | Meaning | Action |
 |---|---|---|
-| 0 | Não é problema | Ignore |
-| 1 | Cosmético | Se sobrar tempo |
-| 2 | Menor: atrapalha, mas dá para contornar | Prioridade baixa |
-| 3 | Maior: frequente ou muita gente tropeça | Conserte antes de lançar |
-| 4 | Catástrofe: impede a tarefa ou perde dado ou dinheiro | Conserte agora |
+| 0 | Not a problem | Ignore |
+| 1 | Cosmetic | If time allows |
+| 2 | Minor: gets in the way, but there is a workaround | Low priority |
+| 3 | Major: frequent, or many people stumble | Fix before launch |
+| 4 | Catastrophe: blocks the task or loses data or money | Fix now |
 
-A nota combina frequência, impacto e persistência.
+The score combines frequency, impact and persistence.
 
-**Roteiro:**
-1. Defina 3–5 tarefas reais ("criar um cliente"). Audite a tarefa, não a tela solta.
-2. Faça a tarefa uma vez como usuário. Na segunda vez, passe heurística por heurística e lei por lei.
-3. Meça:
-   - ações por tela (Hick): mais de 3 com o mesmo peso, escolha uma principal;
-   - alvo e distância da ação principal (Fitts);
-   - tempo de resposta (Doherty);
-   - grupos (Gestalt): se o espaço não bate com o grupo, conserte o espaço antes de pôr borda.
-4. Um problema por linha, ordenado por severidade, agrupando os que têm a mesma causa.
-5. Se der, use 3–5 avaliadores: um sozinho acha ~35% dos problemas (Nielsen e Molich, 1990).
+**Script:**
+1. Define 3–5 real tasks ("create a customer"). Audit the task, not a screen in isolation.
+2. Do the task once as a user. The second time, go heuristic by heuristic and law by law.
+3. Measure:
+   - actions per screen (Hick): more than 3 with the same weight, pick one primary;
+   - size and distance of the primary action (Fitts);
+   - response time (Doherty);
+   - groups (Gestalt): if the spacing doesn't match the grouping, fix the spacing before adding a border.
+4. One problem per row, sorted by severity, grouping those with the same cause.
+5. If you can, use 3–5 evaluators: one alone finds ~35% of the problems (Nielsen and Molich, 1990).
 
 ```markdown
-| # | Onde (tela · elemento) | Problema | Heurística/lei | Sev. | Conserto |
+| # | Where (screen · element) | Problem | Heuristic/law | Sev. | Fix |
 |---|---|---|---|---|---|
-| 1 | Checkout · "Continuar" | Some sem aviso com CEP inválido | H1, H9 | 3 | Erro no campo: "CEP não encontrado. Confira os 8 números." |
+| 1 | Checkout · "Continue" | Does nothing, with no warning, on an invalid ZIP code | H1, H9 | 3 | Inline error: "ZIP code not found. Check the 5 digits." |
 ```
 
-Feche com o total por severidade (ex.: 2 × 4, 5 × 3) e os 3 consertos que mais mudam a experiência. Diga também o que ainda precisa de teste com usuário real.
+Close with the total per severity (e.g. 2 × 4, 5 × 3) and the 3 fixes that change the experience most. Also say what still needs testing with real users.
 
-## Erros comuns
+## Common mistakes
 
-- Citar a lei para justificar o que já ia fazer. A lei serve para decidir.
-- Ler Hick como "menos opções sempre". Cortar o que a pessoa precisa esconde o problema; agrupe e priorize.
-- Usar Miller como limite de itens no menu. Menu é reconhecimento, não memória; ali o limite é Hick.
-- Card em tudo para agrupar. Espaço resolve antes de borda.
+- Citing a law to justify what you were going to do anyway. The law is for deciding.
+- Reading Hick as "fewer options, always". Cutting what people need hides the problem; group and prioritize.
+- Using Miller as a menu item limit. Menus are recognition, not memory; there the limit is Hick.
+- Cards on everything to group things. Space solves it before borders do.
 
 ## Checklist
 
-1. Uma ação principal, grande e perto da mão?
-2. Até 7 opções visíveis por decisão; convenções respeitadas?
-3. O sistema adivinha o que pode e aceita formato flexível?
-4. Feedback em ≤ 100 ms e progresso acima de 400 ms?
-5. Espaço entre grupos ≥ 2× o espaço dentro; um destaque por tela?
-6. Dá para desfazer, voltar e sair de qualquer lugar?
-7. Todo erro é prevenido antes e, quando acontece, diz como resolver?
-8. Pico e fim da experiência caprichados?
+1. One primary action, large and close to the hand?
+2. Up to 7 visible options per decision; conventions respected?
+3. Does the system guess what it can and accept flexible formats?
+4. Feedback in ≤ 100 ms and progress past 400 ms?
+5. Space between groups ≥ 2× the space within; one highlight per screen?
+6. Can people undo, go back and get out from anywhere?
+7. Is every error prevented up front and, when it happens, does it say how to fix it?
+8. Are the peak and the end of the experience polished?

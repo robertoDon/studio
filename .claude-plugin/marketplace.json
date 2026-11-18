@@ -1,15 +1,25 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "studio",
-  "description": "Plugins para dar cara, acabamento e direção de arte a produtos digitais.",
-  "owner": { "name": "robertoDon" },
+  "description": "Claude Code plugins that give digital products a real look, finish and art direction.",
+  "owner": {
+    "name": "robertoDon"
+  },
   "plugins": [
     {
       "name": "art-director",
       "source": "./plugins/art-director",
-      "description": "Direção de arte como consultoria: lê o projeto, entende público, setor e a imagem que o produto quer passar, escolhe as escolas de design certas e aplica em app web, app mobile, landing page, site ou slides.",
+      "description": "Art direction as a consultancy. Reads your project, picks the design school that fits your audience out of 22, writes the rules into a DESIGN.md and applies them to web apps, mobile apps, landing pages, sites, stores and slides. No more AI-made look.",
       "category": "design",
-      "keywords": ["design", "ui", "ux", "direcao-de-arte", "design-system", "escolas-de-design"]
+      "keywords": [
+        "design",
+        "ui",
+        "ux",
+        "art-direction",
+        "design-system",
+        "design-schools",
+        "anti-generic"
+      ]
     }
   ]
 }

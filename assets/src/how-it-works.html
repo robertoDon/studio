@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How it works</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="common.css">
+<style>
+  body { width: 1280px; height: 640px; padding: 44px 64px; }
+  .flow { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; }
+  .flow::before { content: ''; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--ink); }
+  .step { position: relative; padding-top: 34px; }
+  .step::before { content: ''; position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+  .step.key::before { background: var(--klein); border-color: var(--klein); }
+  .step .no { font: 500 13px/1 'Geist Mono', monospace; color: var(--klein); }
+  .step h3 { margin: 8px 0 8px; font: 800 30px/1 'Schibsted Grotesk', sans-serif; letter-spacing: -.035em; }
+  .step p { margin: 0 0 12px; font: 400 15.5px/1.38 'Schibsted Grotesk', sans-serif; }
+  .step .who { font: 500 12.5px/1.6 'Geist Mono', monospace; color: var(--mute); }
+
+  .lower { display: grid; grid-template-columns: 1fr 400px; gap: 56px; margin-top: 46px; }
+  .formula h4 { margin: 0 0 14px; font: 800 22px/1 'Schibsted Grotesk', sans-serif; letter-spacing: -.02em; }
+  .bar { display: flex; height: 74px; font: 700 16px/1.2 'Schibsted Grotesk', sans-serif; }
+  .bar div { padding: 14px 16px; }
+  .bar small { display: block; font: 500 12.5px/1.4 'Geist Mono', monospace; opacity: .8; margin-top: 4px; }
+  .main { flex: 70; background: var(--ink); color: #fff; }
+  .acc { flex: 25; background: var(--klein); color: #fff; }
+  .base { margin-top: 10px; padding: 12px 16px; border: 2px solid var(--ink); font: 500 13px/1.7 'Geist Mono', monospace; }
+  .base b { font: 700 16px/1 'Schibsted Grotesk', sans-serif; margin-right: 10px; }
+
+  .doc { border: 2px solid var(--ink); padding: 18px 20px; font: 400 13.5px/1.62 'Geist Mono', monospace; box-shadow: 8px 8px 0 var(--klein); }
+  .doc .h { font-weight: 500; font-size: 15px; margin-bottom: 4px; }
+  .doc .q { color: var(--mute); margin-bottom: 6px; }
+  .doc em { font-style: normal; color: var(--klein); }
+</style>
+</head>
+<body>
+<div class="flow">
+  <div class="step"><div class="no">01</div><h3>X-ray</h3><p>Reads code, copy and tokens before asking. Counts stray values.</p><div class="who">project-reader</div></div>
+  <div class="step"><div class="no">02</div><h3>Briefing</h3><p>Asks at most 3 questions, and only the ones that change the choice.</p><div class="who">director</div></div>
+  <div class="step key"><div class="no">03</div><h3>Choice</h3><p>Crosses sector with the image you want, then lets the audience decide.</p><div class="who">director</div></div>
+  <div class="step"><div class="no">04</div><h3>Record</h3><p>Writes DESIGN.md, the contract every screen follows.</p><div class="who">director</div></div>
+  <div class="step"><div class="no">05</div><h3>Apply, review</h3><p>Tokens first, then the most-opened screen. Scored against DESIGN.md.</p><div class="who">visual-implementer<br>design-critic</div></div>
+</div>
+
+<div class="lower">
+  <div class="formula">
+    <h4>The 1 + 1 + base formula</h4>
+    <div class="bar">
+      <div class="main">Main school, 70%<small>sets the grid, type and form</small></div>
+      <div class="acc">Accent, 20–30%<small>one or two places</small></div>
+    </div>
+    <div class="base"><b>Base, always</b><span style="white-space:nowrap">anti-generic</span>, <span style="white-space:nowrap">base-ux</span>, <span style="white-space:nowrap">base-accessibility</span>, <span style="white-space:nowrap">base-typography</span>, <span style="white-space:nowrap">base-color</span>, <span style="white-space:nowrap">base-motion</span>, <span style="white-space:nowrap">base-layout-grid</span>, <span style="white-space:nowrap">base-microcopy</span>, <span style="white-space:nowrap">surface-*</span></div>
+  </div>
+  <div class="doc">
+    <div class="h"># Ledger</div>
+    <div class="q">&gt; Swiss with Scandinavian warmth.</div>
+    ## 1. Diagnosis<br>
+    ## 2. Direction<br>
+    &nbsp;&nbsp;&nbsp;main &nbsp;&nbsp;<em>school-swiss</em><br>
+    &nbsp;&nbsp;&nbsp;accent <em>school-scandinavian</em><br>
+    ## 3. Tokens<br>
+    ## 4. Rules per surface<br>
+    ## 5. Forbidden<br>
+    ## 6. Open decisions<br>
+    ## 7. History
+  </div>
+</div>
+</body>
+</html>

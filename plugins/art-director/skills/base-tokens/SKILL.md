@@ -1,68 +1,68 @@
 ---
 name: base-tokens
-description: Design tokens em 3 camadas (primitivo → semântico → componente), nomes, implementação em CSS variables e Tailwind, e como ligar ao DESIGN.md do projeto. Use ao criar ou organizar design system, tema, variáveis de cor/espaço/tipo, modo escuro, troca de marca, ou quando pedirem "tokens", "design system", "variáveis de tema", "padronizar valores".
+description: Design tokens in 3 layers (primitive → semantic → component), naming, implementation in CSS variables and Tailwind, and how to tie them to the project's DESIGN.md. Use when creating or organizing a design system, a theme, color/spacing/type variables, dark mode or a brand swap, or when the user asks for "tokens", "design system", "theme variables", "standardize values".
 ---
 
-# Tokens · Poucos valores, cada um com nome
+# Tokens · Few values, each with a name
 
-Fontes: W3C Design Tokens Community Group (Format Module); Material Design 3 (design tokens: reference, system, component); Salesforce Lightning (origem do termo, Jina Anne); Nathan Curtis, "Naming Tokens in Design Systems" (EightShapes). Tela com cara de gerada tem valor solto. Token fecha a conta: se um valor não tem nome, não entra.
+Sources: W3C Design Tokens Community Group (Format Module); Material Design 3 (design tokens: reference, system, component); Salesforce Lightning (where the term came from, Jina Anne); Nathan Curtis, "Naming Tokens in Design Systems" (EightShapes). A screen with a generated look has stray values. Tokens close the books: if a value has no name, it doesn't go in.
 
-## O documento de direção
+## The direction document
 
-A direção de arte do projeto mora no **`DESIGN.md` na raiz** do repositório. O formato está em `skills/direcao-de-arte/references/design-md.md`. Os tokens são a tradução técnica dele: o DESIGN.md diz *por quê* e *qual escola*; os tokens dizem *quanto*. Mudou o DESIGN.md, atualize os tokens no mesmo commit.
+The project's art direction lives in **`DESIGN.md` at the root** of the repository. Its format is in `skills/art-direction/references/design-md.md`. Tokens are its technical translation: DESIGN.md says *why* and *which school*; tokens say *how much*. When DESIGN.md changes, update the tokens in the same commit.
 
-## Três camadas
+## Three layers
 
-| Camada | O que é | Exemplo | Quem usa |
+| Layer | What it is | Example | Who uses it |
 |---|---|---|---|
-| **Primitivo** (reference) | O valor bruto, sem sentido | `--green-600: oklch(0.52 0.17 150)` · `--space-4: 16px` | Só a camada semântica |
-| **Semântico** (system) | O papel do valor | `--color-action` · `--color-text-mute` · `--space-stack` | Componentes e telas |
-| **Componente** | Decisão de um componente | `--button-radius` · `--card-padding` | Só aquele componente |
+| **Primitive** (reference) | The raw value, no meaning | `--green-600: oklch(0.52 0.17 150)` · `--space-4: 16px` | Only the semantic layer |
+| **Semantic** (system) | The value's role | `--color-action` · `--color-text-mute` · `--space-stack` | Components and screens |
+| **Component** | A decision for one component | `--button-radius` · `--card-padding` | Only that component |
 
-Regra: **componente nunca lê primitivo**. Trocar de tema (claro/escuro) ou de marca (outro produto) muda só a camada semântica.
+Rule: **a component never reads a primitive**. Switching theme (light/dark) or brand (another product) changes only the semantic layer.
 
-## O que vira token
+## What becomes a token
 
-| Grupo | Tokens mínimos |
+| Group | Minimum tokens |
 |---|---|
-| Cor | bg, surface, surface-raised, text, text-mute, border, action, on-action, focus, success, warning, danger |
-| Tipo | família display/texto/mono; 4–6 tamanhos com entrelinha; pesos |
-| Espaço | 4, 8, 12, 16, 24, 32, 48, 64, 96 |
-| Raio | 2–4 valores (controle, card, folha, pílula) |
-| Sombra / elevação | 2–3 níveis |
-| Movimento | durações toque/revelar/cena, curvas de entrada e saída |
-| Tamanho | alvo de toque (44), ícone (16, 20, 24), largura máxima |
-| Camada | z-index nomeado (dropdown, sticky, modal, toast) |
+| Color | bg, surface, surface-raised, text, text-mute, border, action, on-action, focus, success, warning, danger |
+| Type | display/text/mono families; 4–6 sizes with line height; weights |
+| Spacing | 4, 8, 12, 16, 24, 32, 48, 64, 96 |
+| Radius | 2–4 values (control, card, sheet, pill) |
+| Shadow / elevation | 2–3 levels |
+| Motion | touch/reveal/scene durations, enter and exit curves |
+| Size | touch target (44), icon (16, 20, 24), max width |
+| Layer | named z-index (dropdown, sticky, modal, toast) |
 
-## Nomes
+## Naming
 
-Padrão: `categoria-papel-variante-estado`. Em inglês ou português, mas um idioma só.
+Pattern: `category-role-variant-state`. English or another language, but only one.
 
-- Bom: `--color-text-mute`, `--color-action-hover`, `--radius-card`, `--dur-revelar`.
-- Ruim: `--gray2`, `--blue-button`, `--big-padding`, `--color-1`.
-- Nome de papel, não de aparência: `--color-danger`, não `--color-red`. Assim o tema pode mudar o tom.
+- Good: `--color-text-mute`, `--color-action-hover`, `--radius-card`, `--dur-reveal`.
+- Bad: `--gray2`, `--blue-button`, `--big-padding`, `--color-1`.
+- Name the role, not the look: `--color-danger`, not `--color-red`. That way a theme can change the hue.
 
 ## CSS variables
 
 ```css
 :root {
-  /* primitivos */
+  /* primitives */
   --gray-50: oklch(0.98 0.003 260); --gray-900: oklch(0.21 0.012 260);
   --brand-600: oklch(0.52 0.17 150);
-  /* semânticos */
+  /* semantics */
   --color-bg: var(--gray-50); --color-text: var(--gray-900);
   --color-action: var(--brand-600); --color-on-action: #fff;
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px;
   --radius-control: 8px; --radius-card: 16px; --radius-pill: 999px;
   --fs-sm: 0.75rem; --fs-body: 1rem; --fs-title: 1.5rem; --fs-display: 2rem;
-  --dur-toque: 120ms; --dur-revelar: 240ms; --ease-out: cubic-bezier(.2,0,0,1);
+  --dur-touch: 120ms; --dur-reveal: 240ms; --ease-out: cubic-bezier(.2,0,0,1);
 }
 [data-theme="dark"] { --color-bg: oklch(0.17 0.01 260); --color-text: oklch(0.95 0.005 260); }
 ```
 
 ## Tailwind
 
-Aponte o tema para as variáveis, não para valores. No Tailwind v4, use `@theme`; no v3, `theme.extend` com `var(--...)`. Troque a escala padrão em vez de só estender, para que valores fora da régua nem existam.
+Point the theme at the variables, not at values. In Tailwind v4, use `@theme`; in v3, `theme.extend` with `var(--...)`. Replace the default scale instead of only extending it, so values off the yardstick don't even exist.
 
 ```css
 @theme {
@@ -72,18 +72,18 @@ Aponte o tema para as variáveis, não para valores. No Tailwind v4, use `@theme
 }
 ```
 
-## Como auditar valores soltos
+## How to audit stray values
 
-1. Liste os valores distintos no código: `grep -Eo 'font-size:[^;]+|padding[^;]+|gap:[^;]+|border-radius:[^;]+|#[0-9a-fA-F]{3,8}'` (e classes arbitrárias tipo `p-[13px]`).
-2. Conte por grupo. Mais de 4 tamanhos de texto, 8 espaços ou 4 raios já é desvio.
-3. Troque cada valor pelo vizinho da régua. Precisa de um valor novo? Mude a régua (o token) antes, não a tela.
-4. Mostre antes e depois com os números (ex.: 11 → 4 tamanhos, 14 → 7 espaços).
+1. List the distinct values in the code: `grep -Eo 'font-size:[^;]+|padding[^;]+|gap:[^;]+|border-radius:[^;]+|#[0-9a-fA-F]{3,8}'` (plus arbitrary classes like `p-[13px]`).
+2. Count per group. More than 4 text sizes, 8 spacings or 4 radii is already drift.
+3. Swap each value for its nearest neighbor on the yardstick. Need a new value? Change the yardstick (the token) first, not the screen.
+4. Show before and after with numbers (e.g. 11 → 4 sizes, 14 → 7 spacings).
 
 ## Checklist
 
-1. Existe DESIGN.md na raiz e os tokens batem com ele?
-2. Três camadas, e nenhum componente lê primitivo?
-3. Nomes por papel, não por aparência?
-4. Tema escuro e troca de marca mudam só a camada semântica?
-5. Nenhum valor solto no código (hex, px arbitrário)?
-6. Movimento também é token?
+1. Is there a DESIGN.md at the root, and do the tokens match it?
+2. Three layers, and no component reads a primitive?
+3. Names by role, not by look?
+4. Do dark theme and brand swap change only the semantic layer?
+5. No stray values in the code (hex, arbitrary px)?
+6. Is motion a token too?

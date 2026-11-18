@@ -1,7 +1,7 @@
 {
   "name": "art-director",
-  "version": "0.3.0",
-  "description": "Direção de arte como consultoria: lê o projeto, entende público, setor e a imagem que o produto quer passar, escolhe as escolas de design certas e aplica em app web, app mobile, landing page, site ou slides.",
+  "version": "1.0.0",
+  "description": "Art direction as a consultancy. Reads your project, picks the design school that fits your audience out of 22, writes the rules into a DESIGN.md and applies them to web apps, mobile apps, landing pages, sites, stores and slides. No more AI-made look.",
   "author": {
     "name": "robertoDon"
   },
@@ -9,8 +9,9 @@
     "design",
     "ui",
     "ux",
-    "direcao-de-arte",
+    "art-direction",
     "design-system",
-    "escolas-de-design"
+    "design-schools",
+    "anti-generic"
   ]
 }

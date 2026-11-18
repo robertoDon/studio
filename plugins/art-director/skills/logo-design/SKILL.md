@@ -1,6 +1,6 @@
 ---
 name: logo-design
-description: "Cria variantes de logo prontas para produção (wordmark, lockup, só símbolo, letra como símbolo, monograma), com racional, especificação de aplicação (favicon de 16 px, bordado, sinalização, movimento) e arquivos SVG em uma cor e em negativo. Use quando pedirem logo, logotipo, marca, wordmark, monograma, lockup, variações ou refresh de logo. Só o logo: a cor e o tipo do produto vêm do `direcao-de-arte` e do DESIGN.md; o sistema de marca inteiro fica fora."
+description: "Creates production-ready logo variants (wordmark, lockup, symbol only, letterform as symbol, monogram), with rationale, application specs (16 px favicon, embroidery, signage, motion) and single-color and reversed SVG files. Use when someone asks for a logo, logotype, brand mark, wordmark, monogram, lockup, logo variations or a logo refresh. Logo only: the product's color and type come from `art-direction` and the DESIGN.md; the full brand system is out of scope."
 category: brand
 catalog_summary: "Logo variants across architectures (wordmark, lockup, monogram, letterform-as-symbol), with rationale and application specs"
 display_order: 5
@@ -26,9 +26,9 @@ The output is decision material, not a finished logo. The brand owner selects fr
 
 ## When NOT to use
 
-- A complete identity system (logo plus color plus type plus voice plus applications) is out of scope for this plugin. This skill is the logo layer; color and type for the product come from `direcao-de-arte` and the project's DESIGN.md.
-- Use `direcao-de-arte` first for audience, sector and the image the brand wants to project. A logo without strategy is a drawing.
-- Use `direcao-de-arte` (and the `escola-*` it picks) for project-wide aesthetic direction. Direction calibrates many decisions; logo design produces specific marks.
+- A complete identity system (logo plus color plus type plus voice plus applications) is out of scope for this plugin. This skill is the logo layer; color and type for the product come from `art-direction` and the project's DESIGN.md.
+- Use `art-direction` first for audience, sector and the image the brand wants to project. A logo without strategy is a drawing.
+- Use `art-direction` (and the `school-*` it picks) for project-wide aesthetic direction. Direction calibrates many decisions; logo design produces specific marks.
 - One-off illustration, icon, or pictogram work
 - Designing brand patterns, textures, or supporting graphics
 - Pure typographic exploration unrelated to a brand name

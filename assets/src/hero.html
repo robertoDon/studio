@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>art-director</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="common.css">
+<style>
+  body { width: 1280px; height: 640px; position: relative; overflow: hidden; }
+  h1 { position: absolute; left: 60px; top: 34px; margin: 0; font: 800 132px/1 'Schibsted Grotesk', sans-serif; letter-spacing: -.055em; }
+  h1 span { color: var(--klein); }
+  .lede { position: absolute; left: 66px; top: 186px; margin: 0; max-width: 820px; font: 500 25px/1.32 'Schibsted Grotesk', sans-serif; }
+  .lede b { font-weight: 800; }
+  .install { position: absolute; right: 64px; top: 66px; font: 500 15px/1 'Geist Mono', monospace; padding: 12px 16px; border: 1.5px solid var(--ink); }
+  .install::before { content: '$ '; color: var(--klein); }
+  .shelf { position: absolute; left: 64px; right: 64px; bottom: 54px; display: flex; align-items: flex-end; gap: 6px; }
+  .shelf::after { content: ''; position: absolute; left: -64px; right: -64px; bottom: -10px; height: 10px; background: var(--ink); }
+  .spine { position: relative; flex: 1; padding: 14px 0 0; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+  .spine .t { writing-mode: vertical-rl; white-space: nowrap; font-size: 19px; line-height: 1; }
+  .spine .m { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+<h1>art-director<span>.</span></h1>
+<p class="lede"><b>A real art director inside Claude Code.</b> It reads your product, picks one of 22 design schools, and writes the rules into a DESIGN.md every screen follows. No more AI-made look.</p>
+<div class="install">/plugin install art-director@studio</div>
+<div class="shelf" id="shelf"></div>
+<script>
+// name, height, background, ink, font, extra spine css, mark css
+const S = [
+  ['Swiss', 236, '#fff', '#111', "700 19px 'Helvetica Neue',Helvetica,sans-serif", 'box-shadow:inset 0 0 0 1.5px #ddd', 'width:18px;height:18px;background:#e30613'],
+  ['Maximalist', 262, '#ff3d7f', '#141414', "400 17px 'Bowlby One',sans-serif", '', 'width:30px;height:30px;border-radius:50%;background:#2448ff;box-shadow:0 -14px 0 -4px #ffb800'],
+  ['Dark Tech', 222, '#08090a', '#f7f8f8', "600 19px Geist,sans-serif", '', 'width:9px;height:9px;border-radius:50%;background:#5e6ad2;box-shadow:0 0 10px #5e6ad2'],
+  ['bauhaus', 246, '#f4f1ea', '#111', "600 21px Jost,sans-serif", '', 'width:24px;height:24px;border-radius:50%;background:#d62828;box-shadow:0 -20px 0 -6px #1d4e89'],
+  ['Material', 214, '#6750a4', '#fff', "500 19px 'Roboto Flex',sans-serif", '', 'width:26px;height:26px;border-radius:8px;background:#eaddff'],
+  ['Japanese', 254, '#fbfaf7', '#1f1e1c', "500 18px 'Noto Serif JP',serif", 'box-shadow:inset 0 0 0 1.5px #e6e1d8', 'width:20px;height:20px;border-radius:50%;background:#b5452b'],
+  ['Y2K/Retrofuture', 270, '#0a0a0f', '#e8e4ff', "400 13px Michroma,sans-serif", '', 'width:24px;height:24px;border-radius:50%;border:2.5px solid #00f0ff;box-shadow:0 0 10px #00f0ff'],
+  ['Neobrutalism', 240, '#ffd23f', '#000', "400 16px 'Archivo Black',sans-serif", 'box-shadow:inset 0 0 0 3px #000', 'width:22px;height:22px;background:#ff6b9d;border:3px solid #000;box-shadow:3px 3px 0 #000'],
+  ['Editorial', 228, '#faf8f3', '#1a1a1a', "italic 700 21px 'Playfair Display',serif", 'box-shadow:inset 0 0 0 1.5px #e7e2d6', 'width:28px;height:3px;background:#c8102e;box-shadow:0 -6px 0 #c8102e'],
+  ['Quiet Luxury', 258, '#1e2b24', '#f7f4ef', "italic 400 21px 'Bodoni Moda',serif", 'box-shadow:inset 0 0 0 4px #1e2b24,inset 0 0 0 5px #b39762', 'width:14px;height:14px;border:1px solid #b39762;transform:translateX(-50%) rotate(45deg)'],
+  ['Pop/Memphis', 246, '#fff8ec', '#111', "800 19px 'Bricolage Grotesque',sans-serif", 'background-image:linear-gradient(#fff8ec 0 70%,transparent 70%),radial-gradient(#111 1.2px,transparent 1.6px);background-size:100% 100%,8px 8px', 'width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:24px solid #ff6b9a'],
+  ['Sport', 208, '#d7ff1e', '#0b0b0b', "400 24px Anton,sans-serif;text-transform:uppercase", '', 'width:30px;height:8px;background:#fc4c02;transform:translateX(-50%) skewX(-20deg)'],
+  ['Organic', 244, '#b8643f', '#f3ede4', "600 20px Fraunces,serif", 'border-radius:22px 22px 0 0', 'width:22px;height:22px;border-radius:0 50%;background:#e8ddc8'],
+  ['Refined Minimalism', 274, '#f5f5f7', '#1d1d1f', "600 17px -apple-system,'SF Pro Display',sans-serif", '', 'width:9px;height:9px;border-radius:50%;background:#0071e3'],
+  ['Bento', 218, '#1d1d1f', '#fff', "600 19px Geist,sans-serif", '', 'width:26px;height:26px;background:conic-gradient(#0071e3 0 25%,#fff 0 50%,#6e6e73 0 75%,#fff 0);border-radius:6px'],
+  ['Clay 3D', 236, '#b9a6ff', '#1f1b3a', "600 20px Fredoka,sans-serif", 'border-radius:16px 16px 0 0', 'width:26px;height:26px;border-radius:50%;background:#8ee3c8;box-shadow:inset -4px -5px 7px rgba(31,27,58,.2),inset 4px 4px 6px rgba(255,255,255,.7)'],
+  ['Handcrafted', 252, '#f4ecdd', '#1e1b18', "400 17px 'Alfa Slab One',serif", 'background-image:radial-gradient(rgba(30,27,24,.08) 1px,transparent 1.3px);background-size:5px 5px', 'width:26px;height:26px;border-radius:50%;border:2px dashed #a63a2b'],
+  ['Utilitarian', 226, '#0e1012', '#fafafa', "600 17px 'IBM Plex Mono',monospace", '', 'width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 -12px 0 #3ddc84,0 -24px 0 #ffb020'],
+  ['Spatial Glass', 248, 'linear-gradient(180deg,#4f8cff,#9a7cff 45%,#ff7ab6 75%,#ffb997)', '#fff', "600 19px -apple-system,'SF Pro Display',sans-serif", '', 'width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.8)'],
+  ['Scandinavian', 230, '#e8dfd3', '#2b2724', "600 19px Figtree,sans-serif", '', 'width:24px;height:24px;border-radius:50%;background:#6b7f5e;box-shadow:10px -10px 0 -4px #d4a24c'],
+  ['Trusted Corporate', 266, '#0b5cab', '#fff', "700 17px 'Public Sans',sans-serif", 'box-shadow:inset 0 -8px 0 #ffdd00', 'width:22px;height:4px;background:#fff;bottom:24px'],
+  ['Tactile', 220, '#d9dadc', '#2b2c2e', "600 19px 'IBM Plex Sans',sans-serif", 'box-shadow:inset 0 1px 0 #fff,inset 0 -3px 0 #b5b6b8', 'width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a5c,#ff5a1f 60%,#d9440f);box-shadow:0 3px 0 #b33a0c'],
+];
+const shelf = document.getElementById('shelf');
+for (const [name, h, bg, ink, font, extra, mark] of S) {
+  const el = document.createElement('div');
+  el.className = 'spine';
+  el.style.cssText = `height:${h}px;background:${bg};color:${ink};${extra}`;
+  el.innerHTML = `<div class="t" style="font:${font}">${name}</div><div class="m" style="${mark}"></div>`;
+  shelf.append(el);
+}
+</script>
+</body>
+</html>

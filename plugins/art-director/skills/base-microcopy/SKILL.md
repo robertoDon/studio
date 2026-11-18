@@ -1,85 +1,85 @@
 ---
 name: base-microcopy
-description: Microcopy de interface: verbo no botão, erro que diz como resolver, estado vazio com voz e ação, confirmação, tom por marca. Use ao escrever ou revisar texto de botão, rótulo, mensagem de erro, toast, onboarding, estado vazio, notificação, ou quando pedirem "melhora esse texto", "UX writing", "mensagem de erro", "tom de voz".
+description: Interface microcopy: a verb on every button, errors that say how to fix them, empty states with voice and an action, confirmations, tone by brand. Use when writing or reviewing button text, labels, error messages, toasts, onboarding, empty states or notifications, or when the user asks to "improve this copy", "UX writing", "error message", "tone of voice".
 ---
 
-# Microcopy · A interface fala
+# Microcopy · The interface talks
 
-Fontes: Kinneret Yifrah, *Microcopy: The Complete Guide*; Torrey Podmajersky, *Strategic Writing for UX*; Nielsen Norman Group ("Error-Message Guidelines", "Tone of Voice"); Material Design 3 e Apple HIG (Writing); Mailchimp Content Style Guide. A escola muda o jeito de falar. A clareza não muda.
+Sources: Kinneret Yifrah, *Microcopy: The Complete Guide*; Torrey Podmajersky, *Strategic Writing for UX*; Nielsen Norman Group ("Error-Message Guidelines", "Tone of Voice"); Material Design 3 and Apple HIG (Writing); Mailchimp Content Style Guide. The school changes how it talks. Clarity does not change.
 
-## Regras gerais
+## General rules
 
-- **Curto e na ordem certa:** o que importa primeiro. "Pagamento recusado. Tente outro cartão."
-- **Palavra do usuário,** não do sistema: "Clientes", não "Registros"; "Não deu para salvar", não "Falha na persistência".
-- **Voz ativa e segunda pessoa** quando fala com a pessoa ("Você recebeu"), primeira pessoa quando é escolha dela ("Meus pedidos").
-- **Frase de caso normal** (só a primeira letra maiúscula) em botão, título e menu. Caixa alta só em versalete curto.
-- **Sem exclamação, sem jargão, sem "por favor" em todo lugar.** Um "desculpe" só quando a culpa é do produto.
-- **Número em algarismo** ("3 tarefas"), data relativa quando recente ("há 2 dias"), absoluta quando antiga ("12 de março").
+- **Short and in the right order:** what matters comes first. "Payment declined. Try another card."
+- **The user's words,** not the system's: "Customers", not "Records"; "Couldn't save", not "Persistence failure".
+- **Active voice and second person** when talking to the person ("You received"), first person when it's their choice ("My orders").
+- **Sentence case** (only the first letter capitalized) on buttons, titles and menus. All caps only for short small-caps labels.
+- **No exclamation marks, no jargon, no "please" everywhere.** Say "sorry" only when the product is at fault.
+- **Numbers as digits** ("3 tasks"), relative dates when recent ("2 days ago"), absolute when older ("12 Mar").
 
-## Botão
+## Buttons
 
-| Ruim | Bom | Por quê |
+| Bad | Good | Why |
 |---|---|---|
-| OK / Confirmar / Enviar | Mandar mensagem / Pagar R$ 49 | Verbo + objeto: diz o que acontece |
-| Sim / Não | Apagar proposta / Manter | Opções que se entendem sem ler a pergunta |
-| Clique aqui | Ver planos | Link diz para onde vai |
-| Cancelar (em fluxo de cancelar assinatura) | Manter assinatura / Cancelar assinatura | Evita ambiguidade |
+| OK / Confirm / Submit | Send message / Pay $49 | Verb + object: says what happens |
+| Yes / No | Delete proposal / Keep | Options that make sense without reading the question |
+| Click here | See plans | A link says where it goes |
+| Cancel (in a cancel-subscription flow) | Keep subscription / Cancel subscription | Removes ambiguity |
 
-Botão principal com 1–3 palavras. O mesmo verbo do título do diálogo ("Apagar proposta?" → "Apagar").
+Primary button: 1–3 words. Same verb as the dialog title ("Delete proposal?" → "Delete").
 
-## Erro
+## Errors
 
-Formato: **o que houve + como resolver**, perto de onde aconteceu, sem culpar a pessoa.
+Format: **what happened + how to fix it**, right where it happened, without blaming the person.
 
-| Ruim | Bom |
+| Bad | Good |
 |---|---|
-| Dados inválidos. | CPF com 11 números. Faltou 1. |
-| Erro 500. | Não deu para salvar agora. Suas mudanças estão guardadas; tente de novo em 1 minuto. |
-| Senha incorreta! | Senha não confere. Esqueceu? Mandamos um link. |
-| Campo obrigatório. | Digite seu e-mail para receber o recibo. |
+| Invalid data. | Phone number needs 10 digits. You entered 9. |
+| Error 500. | Couldn't save right now. Your changes are kept; try again in 1 minute. |
+| Incorrect password! | That password doesn't match. Forgot it? We'll send you a link. |
+| Required field. | Enter your email to get the receipt. |
 
-Mostre o erro só depois que a pessoa sai do campo ou envia, não enquanto digita. Diga o formato antes (texto de apoio), não só depois.
+Show the error only after the person leaves the field or submits, not while they type. State the format up front (helper text), not only afterward.
 
-## Estado vazio
+## Empty states
 
-Formato: **o que vai aparecer aqui + por que vale + a ação que faz aparecer**.
+Format: **what will show up here + why it's worth it + the action that makes it appear**.
 
-- Ruim: "Nenhum dado encontrado."
-- Bom: "Suas propostas aparecem aqui. Crie a primeira em 2 minutos." [Criar proposta]
-- Busca sem resultado: diga o que buscou e ofereça saída: "Nada para 'acme ltda'. Tente só 'acme' ou crie o cliente." 
-- Vazio porque terminou tudo é vitória, não ausência: "Tudo em dia."
+- Bad: "No data found."
+- Good: "Your proposals show up here. Create your first one in 2 minutes." [Create proposal]
+- No search results: say what was searched and offer a way out: "Nothing for 'acme ltd'. Try just 'acme' or create the customer."
+- Empty because everything is done is a win, not an absence: "All caught up."
 
-## Confirmação e feedback
+## Confirmation and feedback
 
-- Ação feita: confirme no lugar da ação, no passado e com o objeto: "Lembrete enviado", "Mensagem copiada".
-- Ação irreversível: confirme antes, com o nome do que some e a consequência: "Apagar 'Proposta Acme'? Ela some para todo o time."
-- Melhor que confirmar: **desfazer**. "Proposta arquivada. [Desfazer]"
+- Action done: confirm it in place, in the past tense, with the object: "Reminder sent", "Message copied".
+- Irreversible action: confirm first, naming what disappears and the consequence: "Delete 'Acme proposal'? It disappears for the whole team."
+- Better than confirming: **undo**. "Proposal archived. [Undo]"
 
-## Carregando e espera
+## Loading and waiting
 
-- Até 1 s: nada de texto. 1–10 s: skeleton ou "Carregando propostas…". > 10 s: diga o que está acontecendo e quanto falta.
-- Use reticências (…) e gerúndio só enquanto acontece.
+- Up to 1 s: no text. 1–10 s: a skeleton or "Loading proposals…". > 10 s: say what is happening and how long is left.
+- Use the ellipsis (…) and the -ing form only while it is happening.
 
-## Tom por marca
+## Tone by brand
 
-O tom muda por contexto: mais leve no sucesso, mais sério no erro e no dinheiro. Defina 3 adjetivos da voz e o que ela **não** é.
+Tone shifts with context: lighter on success, more serious on errors and money. Define 3 adjectives for the voice and what it is **not**.
 
-| Marca | É | Não é | Exemplo de sucesso |
+| Brand | Is | Is not | Success example |
 |---|---|---|---|
-| Confiável (banco, saúde) | Claro, calmo, preciso | Fofo, piadista | "Transferência feita. Chega em até 30 min." |
-| Moderna (SaaS, tech) | Direta, enxuta, segura | Robótica | "Pronto. 3 contatos importados." |
-| Divertida (consumo, Gen Z) | Leve, espirituosa | Forçada, cheia de gíria | "Feito. Você tá voando." |
-| Chique (luxo) | Sóbria, elegante, pouca palavra | Íntima, exclamativa | "Seu pedido foi confirmado." |
-| Acolhedora (bem-estar, culinária) | Calorosa, humana | Melosa | "Receita salva. Bom apetite." |
+| Trustworthy (bank, health) | Clear, calm, precise | Cute, jokey | "Transfer sent. Arrives within 30 min." |
+| Modern (SaaS, tech) | Direct, lean, confident | Robotic | "Done. 3 contacts imported." |
+| Playful (consumer, Gen Z) | Light, witty | Forced, slang-heavy | "Done. You're on a roll." |
+| Chic (luxury) | Restrained, elegant, few words | Overfamiliar, exclamatory | "Your order has been confirmed." |
+| Welcoming (wellness, cooking) | Warm, human | Syrupy | "Recipe saved. Enjoy your meal." |
 
-Nunca faça piada em erro, perda de dado, dinheiro ou saúde.
+Never joke in errors, data loss, money or health.
 
 ## Checklist
 
-1. Todo botão tem verbo + objeto e se entende sozinho?
-2. Todo erro diz o que houve e como resolver, perto do campo?
-3. Todo estado vazio tem voz e uma ação?
-4. Confirmações no lugar da ação, com desfazer quando possível?
-5. Palavras do usuário, sem jargão, sem exclamação?
-6. Tom definido em 3 adjetivos e coerente em todo o produto?
-7. Nada de piada em erro, dinheiro ou saúde?
+1. Does every button have a verb + object and make sense on its own?
+2. Does every error say what happened and how to fix it, next to the field?
+3. Does every empty state have a voice and an action?
+4. Confirmations in place, with undo when possible?
+5. The user's words, no jargon, no exclamation marks?
+6. Tone defined in 3 adjectives and consistent across the product?
+7. No jokes in errors, money or health?
