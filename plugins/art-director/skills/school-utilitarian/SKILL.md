@@ -69,7 +69,7 @@ td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-swiss` (grid and type), `school-dark-tech` (dark base), `school-trusted-corporate` (accessibility), `school-sport` (stats), `school-bento`, `school-refined-minimalism`, `school-tactile`.
-- **Clashes with:** `school-organic`, `school-clay-3d`, `school-maximalist`, `school-pop-memphis`.
+- **Clashes with:** `school-organic`, `school-clay-3d`, `school-maximalist`, `school-pop-memphis`, `school-handcrafted`.
 
 ## Checklist
 

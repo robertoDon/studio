@@ -66,7 +66,7 @@ Zurich and Basel, 1950s (Josef Müller-Brockmann, Armin Hofmann, Emil Ruder). Co
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-utilitarian` (dense data), `school-editorial` (headlines), `school-refined-minimalism`, `school-bauhaus`, `school-dark-tech`, `school-trusted-corporate`.
-- **Clashes with:** `school-pop-memphis`, `school-maximalist`, `school-clay-3d`.
+- **Clashes with:** `school-pop-memphis`, `school-maximalist`, `school-clay-3d`, `school-spatial-glass`.
 
 ## Checklist
 

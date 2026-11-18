@@ -70,7 +70,7 @@ Milan, 1981: Ettore Sottsass and the Memphis Group answer modernist good taste w
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-neobrutalism` (outline and solid shadow), `school-clay-3d` (characters), `school-bento` (colored blocks), `school-maximalist`, `school-bauhaus`, `school-y2k-retrofuture`.
-- **Clashes with:** `school-quiet-luxury`, `school-trusted-corporate`, `school-japanese`, `school-swiss`.
+- **Clashes with:** `school-quiet-luxury`, `school-trusted-corporate`, `school-japanese`, `school-swiss`, `school-refined-minimalism`, `school-utilitarian`.
 
 ## Checklist
 

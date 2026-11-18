@@ -68,7 +68,7 @@ Postwar Nordic design (Arne Jacobsen, Alvar Aalto, Hans Wegner) and the Danish i
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-organic`, `school-refined-minimalism`, `school-japanese`, `school-clay-3d`, `school-handcrafted`.
-- **Clashes with:** `school-dark-tech`, `school-neobrutalism`, `school-y2k-retrofuture`.
+- **Clashes with:** `school-dark-tech`, `school-neobrutalism`, `school-y2k-retrofuture`, `school-sport`.
 
 ## Checklist
 

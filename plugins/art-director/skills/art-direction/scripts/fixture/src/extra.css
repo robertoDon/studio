@@ -1,0 +1,4 @@
+:root { --rapido: 900ms; }
+.revela { transition: opacity var(--rapido) ease; }
+.titulo { font: 600 15px/1.4 "Inter Tight", sans-serif; }
+.cartao { transition: transform 500ms ease 300ms; }

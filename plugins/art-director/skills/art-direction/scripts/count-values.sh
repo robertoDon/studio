@@ -9,13 +9,17 @@
 # Nested repos and submodules (a folder with its own .git) are left out and named.
 # Subprojects (a folder with its own package.json) are named in the header.
 # Counted: raw numbers only. var(--x) is a token use, not a stray value.
-# Skipped: comment lines, CSS custom-property definitions (those are the tokens)
-# and lines over 4000 characters (generated code).
+# Skipped: test files, comment lines, CSS custom-property definitions (those are
+# the tokens) and lines over 4000 characters (generated code).
+# Durations: var(--x) is read from its definition; a delay is added to the duration
+# it delays (same transition item, or the same line in JS and Tailwind).
 # Tailwind classes count by step name (tw 4, tw lg): the scale can be customized.
 # Prints a Markdown report on stdout. Needs only bash, git (optional), awk, sort.
 set -eu
 
-VERSION=1.2
+# the plugin's own version, so the report always names the release that made it
+VERSION=$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$(dirname "$0")/../../../.claude-plugin/plugin.json" 2>/dev/null || true)
+VERSION=${VERSION:-dev}
 dir=${1:-.}
 [ -d "$dir" ] || { echo "count-values: not a directory: $dir" >&2; exit 2; }
 cd "$dir"
@@ -25,7 +29,7 @@ tmp=$(mktemp -d "${TMPDIR:-/tmp}/count-values.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 
 exts='\.(css|scss|sass|less|styl|pcss|js|jsx|mjs|cjs|ts|tsx|mts|cts|vue|svelte|astro|html|htm|mdx)$'
-skip='(^|/)(node_modules|dist|build|out|coverage|vendor|\.git|\.next|\.nuxt|\.svelte-kit|\.output|\.turbo|\.vercel)/|\.min\.|\.d\.ts$'
+skip='(^|/)(node_modules|dist|build|out|coverage|vendor|\.git|\.next|\.nuxt|\.svelte-kit|\.output|\.turbo|\.vercel)/|\.min\.|\.d\.ts$|\.(test|spec)\.[a-z]+$|(^|/)(__tests__|__mocks__)/'
 
 # drop paths inside a nested repo (the list in $tmp/nested)
 outside() { awk -v nf="$tmp/nested" 'BEGIN { while ((getline d < nf) > 0) n[++k] = d "/" } { for (i = 1; i <= k; i++) if (index($0 "/", n[i]) == 1) next; print }'; }
@@ -92,12 +96,17 @@ function ms(v, bare_is_seconds,    x) {
 }
 # Kind from nearby words (the line, its open blocks, the file name). A guess: the agent confirms it.
 function guess(s) {
-  if (s ~ /hover|focus|press|whiletap|:active|active:|button|btn/) return "touch"
-  if (s ~ /page|route|intro|hero|scene/) return "scene"
-  if (s ~ /enter|appear|reveal|scroll|keyframes|animation|fade|inview/) return "reveal"
+  # English and Portuguese words
+  if (s ~ /hover|focus|press|whiletap|:active|active:|button|btn|botao|toque|clique/) return "touch"
+  if (s ~ /page|route|intro|hero|scene|pagina|cena|abertura/) return "scene"
+  if (s ~ /enter|appear|reveal|scroll|keyframes|animation|fade|inview|revela|surge|abre|aparece|desliza|entrada|mostra/) return "reveal"
   return "?"
 }
-function keep(v, kind, w,    c) {
+function keep(v, kind, w,    c, fl) {
+  if (kind ~ /^timer/) {
+    if (v > 160) { fl = w; sub(/:[0-9]+$/, "", fl); timers[++ntm] = sprintf("%07d\t%s\t%s\t%d", v, substr(kind, 7), fl, substr(w, length(fl) + 2)) }
+    return
+  }
   c = (kind == "reveal") ? 700 : (kind == "scene") ? 1200 : 160
   if (v > c) over[++nover] = sprintf("%07d\t%s\t%d\t%s", v, kind, c, w)
 }
@@ -105,7 +114,12 @@ function keep(v, kind, w,    c) {
 function dur(f, ln, v, kind) {
   if (v <= 0) return
   add("duration", v "ms")
+  chk(f, ln, v, kind)
+}
+# the ceiling check alone (a delay already counted, added to its duration)
+function chk(f, ln, v, kind) {
   if (kind == "loop" || v <= 160) return
+  if (kind == "timer") kind = "timer:" guess(cx)
   if (kind == "") kind = guess(cx)
   if (cd > 0) { ++npend; pv[npend] = v; pk[npend] = kind; pd[npend] = cd; pl[npend] = cl; pw[npend] = f ":" ln; return }
   if (!cl) keep(v, kind, f ":" ln)
@@ -159,6 +173,28 @@ function doline(f, ln, line,    l, t, x, o, c, d0, d1, dd, b, i) {
   scan(f, ln, line, l, t)
   if (d1 < d0) flush(d1)
 }
+# var(--x) in a line, replaced by the time it was defined as (when known)
+function tvars(s,    o, nm) {
+  o = ""
+  while (match(s, /var\(--[a-z0-9_-]+[^)]*\)/)) {
+    nm = substr(s, RSTART + 4, RLENGTH - 4); sub(/[ \t]*[,)].*$/, "", nm)
+    o = o substr(s, 1, RSTART - 1) ((nm in tvar) ? tvar[nm] : substr(s, RSTART, RLENGTH))
+    s = substr(s, RSTART + RLENGTH)
+  }
+  return o s
+}
+# durations and delays of one line (DV values, DK 1 = a delay): each delay is
+# counted; with a duration on the line, the delays add to it, else they stand alone
+function pair(f, ln, n,    i, d, has) {
+  d = 0; has = 0
+  for (i = 1; i <= n; i++) if (DK[i]) d += DV[i]; else has = 1
+  for (i = 1; i <= n; i++) {
+    if (DV[i] <= 0) continue
+    add("duration", DV[i] "ms")
+    if (!has) chk(f, ln, DV[i], "")
+    else if (!DK[i]) chk(f, ln, DV[i] + d, "")
+  }
+}
 function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
   if (length(line) > 4000) return
 
@@ -194,6 +230,23 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
   for (i = 1; i <= n; i++) add("font size", "tw " substr(M[i], 6))
   n = grab(l, "text-\\[[0-9.]+(px|rem|em)\\]", "[a-z0-9_-]", "")
   for (i = 1; i <= n; i++) { v = M[i]; gsub(/^text-\[|\]$/, "", v); add("font size", norm(v)) }
+
+  # font shorthand: font: [style weight] size[/line-height] family
+  n = grab(l, "font[ \t]*:[^;}]+", "[a-z0-9_.-]", "")
+  for (i = 1; i <= n; i++) {
+    v = after(M[i]); np = split(v, P, /[ \t]+/)
+    for (j = 1; j <= np; j++) {
+      x = P[j]; sub(/\/.*/, "", x)
+      if (isnum(x) && x ~ /[a-z%]$/) {
+        add("font size", norm(x))
+        rest = ""; for (k = j + 1; k <= np; k++) rest = rest " " P[k]
+        sub(/^[ \t]*\/[ \t]*[^ \t]+/, "", rest)
+        if (P[j] ~ /\/$/) sub(/^[ \t]*[^ \t]+/, "", rest)
+        add("font family", family(rest))
+        break
+      }
+    }
+  }
 
   # font family
   n = grab(l, "font-?family[ \t]*:[^;}]+", "[a-z0-9_]", "")
@@ -249,17 +302,25 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
   }
 
   # duration (loops are counted but never listed as over the ceiling)
-  n = grab(l, "(transition|animation)(-duration|-delay)?[ \t]*:[^;}]+", "[a-z0-9_-]", "")
-  for (i = 1; i <= n; i++) P[i] = after(M[i])
+  ld = tvars(l)
+  n = grab(ld, "(transition|animation)(-duration|-delay)?[ \t]*:[^;}]+", "[a-z0-9_-]", "")
+  for (i = 1; i <= n; i++) { P[i] = after(M[i]); y = M[i]; sub(/[ \t]*:.*/, "", y); Q[i] = (y !~ /-/) }
   np = n
   for (j = 1; j <= np; j++) {
-    n = grab(P[j], "[0-9]*\\.?[0-9]+m?s", "[a-z0-9_.]", "[a-z0-9_]")
-    for (i = 1; i <= n; i++) dur(f, ln, ms(M[i], 0), "")
+    # one shorthand item: its first time is the duration, the second its delay
+    ni = Q[j] ? split(P[j], I, ",") : split(P[j], I, "\n")
+    for (k = 1; k <= ni; k++) {
+      n = grab(I[k], "[0-9]*\\.?[0-9]+m?s", "[a-z0-9_.]", "[a-z0-9_]")
+      if (Q[j] && n >= 2) { v = ms(M[1], 0); x = ms(M[2], 0); add("duration", v "ms"); if (x > 0) add("duration", x "ms"); chk(f, ln, v + x, ""); continue }
+      for (i = 1; i <= n; i++) dur(f, ln, ms(M[i], 0), "")
+    }
   }
-  n = grab(l, "(duration|delay)[ \t]*:[ \t]*[\"'`]?[0-9]*\\.?[0-9]+(m?s)?", "[a-z0-9_-]", "[0-9a-z]")
-  for (i = 1; i <= n; i++) { v = M[i]; sub(/^[^:]*:[ \t]*/, "", v); dur(f, ln, ms(v, 1), "") }
+  n = grab(ld, "(duration|delay)[ \t]*:[ \t]*[\"'`]?[0-9]*\\.?[0-9]+(m?s)?", "[a-z0-9_-]", "[0-9a-z]")
+  for (i = 1; i <= n; i++) { v = M[i]; sub(/^[^:]*:[ \t]*/, "", v); DV[i] = ms(v, 1); DK[i] = (M[i] ~ /^delay/) }
+  pair(f, ln, n)
   n = grab(l, "(duration|delay)-[0-9]+", "[a-z0-9_-]", "[a-z0-9_-]")
-  for (i = 1; i <= n; i++) { v = M[i]; sub(/^[a-z]+-/, "", v); dur(f, ln, v + 0, "") }
+  for (i = 1; i <= n; i++) { v = M[i]; DK[i] = (v ~ /^delay/); sub(/^[a-z]+-/, "", v); DV[i] = v + 0 }
+  pair(f, ln, n)
 
   # timers: setTimeout(fn, N) is a "timer", setInterval a loop; also the multi-line "}, N)" close
   if (twait != "" && t ~ /^[)}]+[ \t]*,/) {
@@ -285,6 +346,18 @@ function scan(f, ln, line, l, t,    n, i, j, k, v, s, x, y, rest, P, np) {
   for (i = 1; i <= n; i++) add("arbitrary", M[i])
 }
 BEGIN {
+  # first pass: custom properties defined as a time (--rapido: 200ms)
+  while ((getline f < list) > 0) {
+    while ((getline line < f) > 0) {
+      line = tolower(line)
+      while (match(line, /--[a-z0-9_-]+[ \t]*:[ \t]*[0-9]*\.?[0-9]+m?s([ \t;}]|$)/)) {
+        v = substr(line, RSTART, RLENGTH); line = substr(line, RSTART + RLENGTH)
+        k = v; sub(/[ \t]*:.*/, "", k); sub(/^[^:]*:[ \t]*/, "", v); sub(/[ \t;}]*$/, "", v); tvar[k] = v
+      }
+    }
+    close(f)
+  }
+  close(list)
   while ((getline f < list) > 0) {
     ln = 0
     r = (getline line < f)
@@ -299,6 +372,7 @@ BEGIN {
   for (key in cnt) { split(key, kv, SUBSEP); printf "C\t%s\t%d\t%s\n", kv[1], cnt[key], kv[2] }
   for (k in uses) printf "S\t%s\t%d\t%d\n", k, uses[k], uniq[k]
   for (i = 1; i <= nover; i++) printf "O\t%s\n", over[i]
+  for (i = 1; i <= ntm; i++) printf "T\t%s\n", timers[i]
   printf "F\t%d\n", files + 0
 }
 AWK
@@ -311,7 +385,7 @@ BEGIN {
 }
 $1 == "C" { if (++seen[$2] <= 5) { v = $4; gsub(/\|/, "\\|", v); top[$2] = top[$2] (seen[$2] > 1 ? ", " : "") v " ×" $3 } }
 $1 == "S" { u[$2] = $3; q[$2] = $4 }
-$1 == "O" && $3 == "timer" { tr[++nt] = sprintf("| %d | %s |", $2 + 0, $5); next }
+$1 == "T" { tr[++nt] = sprintf("| %d | %s | %s:%d |", $2 + 0, ($3 == "?" ? "—" : $3), $4, $5) }
 $1 == "O" { row[++no] = sprintf("| %d | %s | %d | %s |", $2 + 0, $3, $4, $5) }
 $1 == "X" { xo = xo (xo == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
 $1 == "P" { sp = sp (sp == "" ? "" : ", ") $2 " (" $3 " file" ($3 == 1 ? "" : "s") ")" }
@@ -331,7 +405,7 @@ END {
   print ""
   if (no == 0) print "Durations over the ceiling: none (loops left out)."
   else {
-    print "Durations over the ceiling (loops left out; delays included). Ceiling by kind: touch 160, reveal 700, scene 1200; ? uses 160."
+    print "Durations over the ceiling (loops left out; delays added, var() read from its definition). Ceiling by kind: touch 160, reveal 700, scene 1200; ? uses 160."
     print "The kind is a guess from nearby words: confirm it."
     print ""
     print "| ms | Kind (guess) | Ceiling | Where |"
@@ -344,13 +418,15 @@ END {
   else {
     print "Timers over 160 ms (setTimeout). Motion only when one starts or ends an animation (a typing cursor, a staged intro); a toast or a debounce is not."
     print ""
-    print "| ms | Where |"
-    print "|---|---|"
-    for (i = 1; i <= nt && i <= 20; i++) print tr[i]
-    if (nt > 20) printf "\n…and %d more not shown.\n", nt - 20
+    print "In file order. Nearby words is the same guess as above: a word there hints at motion."
+    print ""
+    print "| ms | Nearby words | Where |"
+    print "|---|---|---|"
+    for (i = 1; i <= nt && i <= 60; i++) print tr[i]
+    if (nt > 60) printf "\n…and %d more not shown.\n", nt - 60
   }
   print ""
-  print "Counted: raw numbers only; var() is a token use. Skipped: comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg)."
+  print "Counted: raw numbers only; var() is a token use. Skipped: test files, comment lines and CSS custom-property definitions (the tokens). Tailwind steps count by name (tw 4, tw lg)."
 }
 AWK
 
@@ -360,6 +436,7 @@ tab=$(printf '\t')
   grep '^C' "$tmp/raw" | sort -t "$tab" -k2,2 -k3,3nr -k4,4 || true
   grep '^S' "$tmp/raw" || true
   grep '^O' "$tmp/raw" | sort -t "$tab" -k2,2r -k5,5 || true
+  grep '^T' "$tmp/raw" | sort -t "$tab" -k4,4 -k5,5n || true
   cat "$tmp/meta"
   grep '^F' "$tmp/raw"
 } | awk -v version="$VERSION" -f "$tmp/report.awk"

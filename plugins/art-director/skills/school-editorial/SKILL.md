@@ -67,7 +67,7 @@ From the tradition of magazines and newspapers: Alexey Brodovitch at *Harper's B
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-quiet-luxury`, `school-swiss`, `school-handcrafted`, `school-japanese`, `school-maximalist`, `school-organic`.
-- **Clashes with:** `school-clay-3d`, `school-material`, `school-dark-tech`.
+- **Clashes with:** `school-clay-3d`, `school-material`, `school-dark-tech`, `school-bento`, `school-spatial-glass`, `school-tactile`.
 
 ## Checklist
 

@@ -67,7 +67,7 @@ It comes from the fashion houses (Phoebe Philo's Celine, The Row, Loro Piana, He
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-editorial`, `school-japanese`, `school-refined-minimalism`.
-- **Clashes with:** `school-neobrutalism`, `school-pop-memphis`, `school-clay-3d`, `school-sport`.
+- **Clashes with:** `school-neobrutalism`, `school-pop-memphis`, `school-clay-3d`, `school-sport`, `school-bauhaus`, `school-bento`, `school-material`, `school-maximalist`, `school-y2k-retrofuture`.
 
 ## Checklist
 

@@ -70,7 +70,7 @@ Background blur already existed in Windows Vista (Aero, 2007) and iOS 7 (2013). 
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-refined-minimalism`, `school-dark-tech`, `school-bento`, `school-y2k-retrofuture` (chrome version).
-- **Clashes with:** `school-neobrutalism`, `school-editorial`, `school-handcrafted`, `school-swiss`.
+- **Clashes with:** `school-neobrutalism`, `school-editorial`, `school-handcrafted`, `school-swiss`, `school-bauhaus`.
 
 ## Checklist
 

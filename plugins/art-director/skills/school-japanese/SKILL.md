@@ -69,7 +69,7 @@ description: Japanese school (Ma, wabi-sabi, Muji, Kenya Hara). Emptiness as an 
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-quiet-luxury`, `school-editorial`, `school-organic`, `school-scandinavian`, `school-handcrafted`, `school-refined-minimalism`.
-- **Clashes with:** `school-maximalist`, `school-pop-memphis`, `school-neobrutalism`, `school-y2k-retrofuture`.
+- **Clashes with:** `school-maximalist`, `school-pop-memphis`, `school-neobrutalism`, `school-y2k-retrofuture`, `school-bento`.
 
 ## Checklist
 

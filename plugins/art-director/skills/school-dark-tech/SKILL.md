@@ -68,7 +68,7 @@ Born from devtools culture (dark editors, terminals) and refined by Linear (2019
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-utilitarian`, `school-bento`, `school-spatial-glass`, `school-swiss`, `school-refined-minimalism`, `school-sport`, `school-y2k-retrofuture`.
-- **Clashes with:** `school-scandinavian`, `school-handcrafted`, `school-organic`, `school-clay-3d`.
+- **Clashes with:** `school-scandinavian`, `school-handcrafted`, `school-organic`, `school-clay-3d`, `school-editorial`.
 
 ## Checklist
 

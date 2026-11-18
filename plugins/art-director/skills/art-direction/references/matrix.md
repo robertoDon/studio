@@ -9,9 +9,9 @@ Legend: **M** = good as main · *a* = good as accent.
 | Sector | Safe route (what the sector expects) | Bold route (what sets it apart) | Avoid |
 |---|---|---|---|
 | B2B SaaS, CRM, management | Refined Minimalism **M**, Swiss **M**, Bento *a* | Dark Tech **M**, Neobrutalism *a* | Maximalist, Y2K |
-| Dev tools, AI infrastructure, APIs | Dark Tech **M**, Utilitarian **M** | Tactile *a*, Y2K *a*, Spatial Glass *a* | Clay 3D, Handcrafted |
-| Collaboration and AI agents (shared workspaces, chat with people and agents, copilots) | Refined Minimalism **M**, Utilitarian **M**, Swiss *a* | Dark Tech **M**, Editorial *a* (reading voice for long answers), Bento *a*, Tactile *a* | Spatial Glass as main, Maximalist, Y2K, the purple AI gradient |
-| Fintech, banking, investing | Trusted Corporate **M**, Refined Minimalism **M** | Dark Tech **M**, Bento *a*, Clay 3D *a* (young fintech) | Maximalist, raw Neobrutalism |
+| Dev tools, AI infrastructure, APIs | Dark Tech **M**, Utilitarian **M** | Y2K *a*, Spatial Glass *a* | Clay 3D, Handcrafted |
+| Collaboration and AI agents (shared workspaces, chat with people and agents, copilots) | Refined Minimalism **M**, Utilitarian **M**, Swiss *a* | Dark Tech **M**, Bento *a*, Tactile *a* | Spatial Glass as main, Maximalist, Y2K, the purple AI gradient |
+| Fintech, banking, investing | Trusted Corporate **M**, Refined Minimalism **M**, Clay 3D *a* (young fintech) | Dark Tech **M**, Bento *a* | Maximalist, raw Neobrutalism |
 | Trading, crypto, heavy data | Utilitarian **M**, Dark Tech **M** | Y2K *a*, Spatial Glass *a* | Scandinavian, Handcrafted |
 | Health, clinics, health plans | Trusted Corporate **M**, Scandinavian **M** | Organic **M**, Refined Minimalism *a* | Dark Tech, Y2K, Maximalist |
 | Wellness, meditation, yoga, therapy | Organic **M**, Japanese **M** | Scandinavian **M**, Spatial Glass *a* | Utilitarian, Sport, Neobrutalism |
@@ -21,21 +21,21 @@ Legend: **M** = good as main · *a* = good as accent.
 | Fashion, jewelry, premium beauty | Quiet Luxury **M**, Editorial **M** | Maximalist **M**, Y2K *a* | Utilitarian, Trusted Corporate |
 | Affordable beauty, natural cosmetics | Organic **M**, Scandinavian **M** | Pop/Memphis *a*, Clay 3D *a* | Utilitarian |
 | Hospitality, premium travel, high-end real estate | Quiet Luxury **M**, Editorial *a* | Japanese **M** | Pop/Memphis, Neobrutalism |
-| Affordable travel and tourism | Refined Minimalism **M**, Bento *a* | Pop/Memphis *a*, Editorial *a* | Utilitarian |
+| Affordable travel and tourism | Refined Minimalism **M**, Bento *a* | Scandinavian **M**, Clay 3D *a* | Utilitarian |
 | Real estate, construction | Swiss **M**, Trusted Corporate **M** | Scandinavian *a*, Editorial *a* | Y2K, Clay 3D |
-| Adult education, courses | Refined Minimalism **M**, Material **M** | Editorial *a*, Bento *a* | Quiet Luxury |
+| Adult education, courses | Refined Minimalism **M**, Material **M** | Swiss *a*, Bento *a* | Quiet Luxury |
 | Early education, apps for kids | Clay 3D **M**, Pop/Memphis **M** | Bauhaus *a*, Material *a* | Quiet Luxury, Utilitarian, Dark Tech |
-| Games, entertainment | Maximalist **M**, Y2K **M**, Dark Tech **M** | Neobrutalism *a*, Tactile *a* | Trusted Corporate, Japanese |
+| Games, entertainment | Maximalist **M**, Y2K **M**, Dark Tech **M** | Neobrutalism *a*, Pop/Memphis *a* | Trusted Corporate, Japanese |
 | Music, festivals, culture | Maximalist **M**, Y2K **M**, Editorial **M** | Bauhaus *a*, Pop/Memphis *a* | Trusted Corporate |
 | Social, community, creators | Pop/Memphis **M**, Bento **M** | Neobrutalism **M**, Y2K *a* | Trusted Corporate, Quiet Luxury |
 | Government, public services | Trusted Corporate **M**, Swiss **M** | Material *a* | anything trend-driven |
 | Legal, accounting, insurance | Trusted Corporate **M**, Editorial *a* | Swiss **M**, Refined Minimalism *a* | Pop/Memphis, Y2K |
-| NGOs, causes, sustainability | Organic **M**, Editorial **M** | Bauhaus *a*, Maximalist *a* | Quiet Luxury, Dark Tech |
+| NGOs, causes, sustainability | Organic **M**, Editorial **M** | Handcrafted *a*, Maximalist *a* | Quiet Luxury, Dark Tech |
 | Agencies, studios, portfolios | Swiss **M**, Editorial **M** | Neobrutalism **M**, Maximalist **M**, Bauhaus **M** | Trusted Corporate |
-| Hardware, audio, gadgets | Tactile **M**, Refined Minimalism **M** | Dark Tech *a*, Y2K *a* | Handcrafted |
+| Hardware, audio, gadgets | Tactile **M**, Refined Minimalism **M** | Dark Tech *a*, Bauhaus *a* | Handcrafted |
 | Mobility, transport, logistics | Swiss **M**, Utilitarian **M** | Sport *a*, Material *a* | Quiet Luxury, Handcrafted |
 | Pets, home, family | Scandinavian **M**, Clay 3D *a* | Pop/Memphis *a*, Organic *a* | Utilitarian, Dark Tech |
-| General retail / e-commerce | Refined Minimalism **M**, Material **M** | Bento *a*, Editorial *a* | — depends on the product sold |
+| General retail / e-commerce | Refined Minimalism **M**, Material **M** | Bento *a*, Clay 3D *a* | — depends on the product sold |
 
 ## 2. Desired image → schools
 
@@ -45,7 +45,7 @@ Legend: **M** = good as main · *a* = good as accent.
 | **modern** | Refined Minimalism, Dark Tech, Bento, Spatial Glass | Large type with negative tracking, breathing room, short and precise motion |
 | **cool** | Dark Tech, Neobrutalism, Y2K, Swiss (dramatic scale) | One unexpected detail, well executed (accent, type, micro-motion) |
 | **chic** | Quiet Luxury, Editorial, Japanese | Thin serif, lots of space, little color, excellent photography, nothing shouts |
-| **fun** | Pop/Memphis, Clay 3D, Maximalist, Material Expressive | Saturated color, rounded shapes, microinteractions that reward |
+| **fun** | Pop/Memphis, Clay 3D, Maximalist, Material (expressive version) | Saturated color, rounded shapes, microinteractions that reward |
 | **welcoming** | Scandinavian, Organic, Handcrafted | Warm neutrals, soft corners, photos of real people, a close tone of voice |
 | **handcrafted** | Handcrafted, Editorial | Paper texture, a serif with personality, hand-drawn illustration, a seal |
 | **technical** | Utilitarian, Dark Tech, Swiss | Mono for numbers, density, shortcuts, visible grid |

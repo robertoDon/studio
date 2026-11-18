@@ -70,7 +70,7 @@ From biophilic design (the idea that people feel better close to nature), the Ar
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-scandinavian` (warmth and wood), `school-japanese` (ma and wabi-sabi), `school-handcrafted` (texture), `school-editorial` (serif).
-- **Clashes with:** `school-y2k-retrofuture`, `school-dark-tech`, `school-sport`, `school-neobrutalism`.
+- **Clashes with:** `school-y2k-retrofuture`, `school-dark-tech`, `school-sport`, `school-neobrutalism`, `school-bauhaus`, `school-utilitarian`.
 
 ## Checklist
 

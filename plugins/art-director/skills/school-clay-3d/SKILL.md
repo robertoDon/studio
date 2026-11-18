@@ -70,7 +70,7 @@ Born around 2021 from Blender and Cinema 4D renders that imitate modeling clay a
 ## Pairs with / clashes with
 
 - **Pairs with:** `school-pop-memphis`, `school-bento` (cards with an object), `school-material` (expressive shapes), `school-tactile`, `school-refined-minimalism`, `school-scandinavian`.
-- **Clashes with:** `school-quiet-luxury`, `school-swiss`, `school-utilitarian`, `school-editorial`.
+- **Clashes with:** `school-quiet-luxury`, `school-swiss`, `school-utilitarian`, `school-editorial`, `school-dark-tech`, `school-sport`.
 
 ## Checklist
 
